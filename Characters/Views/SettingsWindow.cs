@@ -476,10 +476,10 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
-                KeyBinding = _settings.NextCharacterRoutineEntryKey.Value,
+                KeyBinding = _settings.NextCharacterRoutineStepKey.Value,
                 KeybindChangedAction = (kb) =>
                 {
-                    _settings.NextCharacterRoutineEntryKey.Value = new()
+                    _settings.NextCharacterRoutineStepKey.Value = new()
                     {
                         ModifierKeys = kb.ModifierKeys,
                         PrimaryKey = kb.PrimaryKey,
@@ -487,8 +487,8 @@ namespace Kenedia.Modules.Characters.Views
                         IgnoreWhenInTextField = true,
                     };
                 },
-                SetLocalizedKeyBindingName = () => strings.NextCharacterRoutineEntryKey,
-                SetLocalizedTooltip = () => strings.NextCharacterRoutineEntryKey_Tooltip,
+                SetLocalizedKeyBindingName = () => strings.NextCharacterRoutineStepKey,
+                SetLocalizedTooltip = () => strings.NextCharacterRoutineStepKey_Tooltip,
             };
             #endregion Keybinds
         }
@@ -629,7 +629,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 30,
-                Text = strings.CompletedRoutineEntriesBehavior,
+                Text = strings.CompletedRoutineStepsBehavior,
             };
 
             _ = new Dropdown()
@@ -640,15 +640,15 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     return
                     [
-                        strings.CompletedRoutineEntriesBehavior_Nothing,
-                        strings.CompletedRoutineEntriesBehavior_Hide,
-                        strings.CompletedRoutineEntriesBehavior_MoveToBottom,
+                        strings.CompletedRoutineStepsBehavior_Nothing,
+                        strings.CompletedRoutineStepsBehavior_Hide,
+                        strings.CompletedRoutineStepsBehavior_MoveToBottom,
                     ];
                 },
-                SelectedItem = ToCompletedRoutineEntriesBehaviorText(_settings.CompletedRoutineEntriesBehavior.Value),
+                SelectedItem = ToCompletedRoutineStepsBehaviorText(_settings.CompletedRoutineStepsBehavior.Value),
                 ValueChangedAction = (selected) =>
                 {
-                    _settings.CompletedRoutineEntriesBehavior.Value = ParseCompletedRoutineEntriesBehavior(selected);
+                    _settings.CompletedRoutineStepsBehavior.Value = ParseCompletedRoutineStepsBehavior(selected);
                 },
             };
 
@@ -1135,21 +1135,21 @@ namespace Kenedia.Modules.Characters.Views
             }
         }
 
-        private static string ToCompletedRoutineEntriesBehaviorText(Settings.CompletedRoutineEntriesDisplayBehavior behavior)
+        private static string ToCompletedRoutineStepsBehaviorText(Settings.CompletedRoutineStepsDisplayBehavior behavior)
         {
             return behavior switch
             {
-                Settings.CompletedRoutineEntriesDisplayBehavior.HideCompletedRoutineEntries => strings.CompletedRoutineEntriesBehavior_Hide,
-                Settings.CompletedRoutineEntriesDisplayBehavior.MoveCompletedRoutineEntriesToBottomOfDisplay => strings.CompletedRoutineEntriesBehavior_MoveToBottom,
-                _ => strings.CompletedRoutineEntriesBehavior_Nothing,
+                Settings.CompletedRoutineStepsDisplayBehavior.HideCompletedRoutineSteps => strings.CompletedRoutineStepsBehavior_Hide,
+                Settings.CompletedRoutineStepsDisplayBehavior.MoveCompletedRoutineStepsToBottomOfDisplay => strings.CompletedRoutineStepsBehavior_MoveToBottom,
+                _ => strings.CompletedRoutineStepsBehavior_Nothing,
             };
         }
 
-        private static Settings.CompletedRoutineEntriesDisplayBehavior ParseCompletedRoutineEntriesBehavior(string value)
+        private static Settings.CompletedRoutineStepsDisplayBehavior ParseCompletedRoutineStepsBehavior(string value)
         {
-            if (value == strings.CompletedRoutineEntriesBehavior_Hide) return Settings.CompletedRoutineEntriesDisplayBehavior.HideCompletedRoutineEntries;
-            if (value == strings.CompletedRoutineEntriesBehavior_MoveToBottom) return Settings.CompletedRoutineEntriesDisplayBehavior.MoveCompletedRoutineEntriesToBottomOfDisplay;
-            return Settings.CompletedRoutineEntriesDisplayBehavior.Nothing;
+            if (value == strings.CompletedRoutineStepsBehavior_Hide) return Settings.CompletedRoutineStepsDisplayBehavior.HideCompletedRoutineSteps;
+            if (value == strings.CompletedRoutineStepsBehavior_MoveToBottom) return Settings.CompletedRoutineStepsDisplayBehavior.MoveCompletedRoutineStepsToBottomOfDisplay;
+            return Settings.CompletedRoutineStepsDisplayBehavior.Nothing;
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)

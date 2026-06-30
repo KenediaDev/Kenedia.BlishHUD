@@ -178,7 +178,7 @@ namespace Kenedia.Modules.Characters.Controls
             if (!_listRoutineEntries.TryGetValue(characterRoutine.Id, out var entry)) return;
 
             bool isSelected = _service.SelectedRoutine?.Id == characterRoutine.Id;
-            bool isCompleted = characterRoutine.RoutineEntries.Count > 0 && characterRoutine.RoutineEntries.All(e => e.Completed);
+            bool isCompleted = characterRoutine.RoutineSteps.Count > 0 && characterRoutine.RoutineSteps.All(step => step.IsCompleted);
 
             entry.EntryPanel.BackgroundColor =
                   isSelected ? SelectedBackground

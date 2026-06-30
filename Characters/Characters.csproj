@@ -101,8 +101,8 @@
     <Compile Include="Controls\DraggingControl.cs" />
     <Compile Include="Controls\RadialMenuSection.cs" />
     <Compile Include="Controls\TagFlowPanel.cs" />
-    <Compile Include="Controls\CharacterRoutineEntriesPanel.cs" />
-    <Compile Include="Controls\CharacterRoutineEntryRow.cs" />
+    <Compile Include="Controls\CharacterRoutineStepsPanel.cs" />
+    <Compile Include="Controls\CharacterRoutineStepRow.cs" />
     <Compile Include="Controls\CharacterRoutineDetailPanel.cs" />
     <Compile Include="Controls\CharacterRoutineSidebar.cs" />
     <Compile Include="Controls\Triangle.cs" />
@@ -134,7 +134,7 @@
     <Compile Include="Models\Specialization.cs" />
     <Compile Include="Models\StaticInfo.cs" />
     <Compile Include="Models\TagList.cs" />
-    <Compile Include="Models\CharacterRoutineEntry.cs" />
+    <Compile Include="Models\CharacterRoutineStep.cs" />
     <Compile Include="Models\CharacterRoutineModel.cs" />
     <Compile Include="OCR\OCR.cs" />
     <Compile Include="Models\SearchFilterCollection.cs" />

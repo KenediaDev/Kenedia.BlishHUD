@@ -73,7 +73,7 @@ namespace Kenedia.Modules.Characters.Controls
         private Label _resetLabel;
         private readonly Dropdown _resetDropdown;
         private readonly AutoSuggestComboBox<Character_Model> _characterSuggestionBox;
-        private readonly CharacterRoutineEntriesPanel _entriesPanel;
+        private readonly CharacterRoutineStepsPanel _stepsPanel;
 
         private CharacterRoutineModel _boundList;
         private bool _syncingListMetadata;
@@ -200,7 +200,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _service.UpdateSelectedRoutineResetFrequency(frequency);
             };
 
-            _entriesPanel = new CharacterRoutineEntriesPanel(_service, settings, characterModels)
+            _stepsPanel = new CharacterRoutineStepsPanel(_service, settings, characterModels)
             {
                 Parent = _contentPanel,
             };
@@ -236,7 +236,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _pendingInitialLayout = false;
                 RecalculateLayout();
-                _entriesPanel?.RecalculateLayout();
+            _stepsPanel?.RecalculateLayout();
             }
         }
 
@@ -264,7 +264,7 @@ namespace Kenedia.Modules.Characters.Controls
             _placeholderLabel.Visible = !hasList;
             _contentPanel.Visible = hasList;
 
-            _entriesPanel.BindSelectedRoutine(_boundList);
+            _stepsPanel.BindSelectedRoutine(_boundList);
             if (!hasList)
             {
                 return;

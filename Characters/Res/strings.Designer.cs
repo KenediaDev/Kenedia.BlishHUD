@@ -3196,5 +3196,37 @@ namespace Kenedia.Modules.Characters.Res {
                 return ResourceManager.GetString("Years", resourceCulture);
             }
         }
+
+        internal static string AddRoutineStep => AddRoutineEntry;
+
+        internal static string AllRoutineStepsComplete => AllRoutineEntriesComplete;
+
+        internal static string CompletedRoutineStepsBehavior => CompletedRoutineEntriesBehavior;
+
+        internal static string CompletedRoutineStepsBehavior_Hide => CompletedRoutineEntriesBehavior_Hide;
+
+        internal static string CompletedRoutineStepsBehavior_MoveToBottom => CompletedRoutineEntriesBehavior_MoveToBottom;
+
+        internal static string CompletedRoutineStepsBehavior_Nothing => CompletedRoutineEntriesBehavior_Nothing;
+
+        internal static string CompletedRoutineStepsHiddenTooltip => CompletedRoutineEntriesHiddenTooltip;
+
+        internal static string ConfirmCharacterRoutineStepDelete => ConfirmCharacterRoutineEntryDelete;
+
+        internal static string NextCharacterRoutineStepKey => NextCharacterRoutineEntryKey;
+
+        internal static string NextCharacterRoutineStepKey_Tooltip => NextCharacterRoutineEntryKey_Tooltip;
+
+        internal static string RemoveRoutineStep => RemoveRoutineEntry;
+
+        internal static string RoutineStepCharacterNotAssigned => RoutineEntryCharacterNotAssigned;
+
+        internal static string RoutineStepCharacterNotFound => RoutineEntryCharacterNotFound;
+
+        internal static string RoutineStepDescriptionPlaceholder => RoutineEntryDescriptionPlaceholder;
+
+        internal static string RoutineSteps => RoutineEntries;
+
+        internal static string RoutineStepSwitchFailed => RoutineEntrySwitchFailed;
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Kenedia.Modules.Characters.Services
 {
-    public enum CharacterRoutineEntrySwitchStatus
+    public enum CharacterRoutineStepSwitchStatus
     {
         None,
         Switching,
@@ -25,14 +25,14 @@ namespace Kenedia.Modules.Characters.Services
 
             public StateVar<CharacterRoutineModel> SelectedRoutine { get; } = new();
 
-            public StateVar<CharacterRoutineEntry> TrackedEntry { get; } = new();
+            public StateVar<CharacterRoutineStep> TrackedStep { get; } = new();
 
-            public StateVar<CharacterRoutineEntrySwitchStatus> EntrySwitchStatus { get; } = new();
+            public StateVar<CharacterRoutineStepSwitchStatus> StepSwitchStatus { get; } = new();
         }
 
         private readonly Action _requestSave;
-        private CharacterRoutineEntry _trackedEntryPendingCompletion;
-        private bool _trackedEntrySwitchSucceeded;
+        private CharacterRoutineStep _trackedStepPendingCompletion;
+        private bool _trackedStepSwitchSucceeded;
 
         public CharacterRoutineService(CharacterSwapping characterSwapping, ObservableCollection<Character_Model> characterModels, ObservableCollection<CharacterRoutineModel> characterRoutines, Action requestSave)
         {
@@ -68,6 +68,14 @@ namespace Kenedia.Modules.Characters.Services
 
             if (anyReset)
             {
+                if (_trackedStepPendingCompletion is not null && GetTrackedStepForSelectedRoutine() is null)
+                {
+                    _trackedStepPendingCompletion = null;
+                    _trackedStepSwitchSucceeded = false;
+                    State.TrackedStep.Value = null;
+                    State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
+                }
+
                 _requestSave?.Invoke();
             }
 
@@ -88,19 +96,19 @@ namespace Kenedia.Modules.Characters.Services
             if (SelectedRoutine is null) return;
 
             var previousRoutine = SelectedRoutine;
-            var previousTrackedEntry = _trackedEntryPendingCompletion;
+            var previousTrackedStep = _trackedStepPendingCompletion;
 
             SelectedRoutine = null;
-            _trackedEntryPendingCompletion = null;
-            _trackedEntrySwitchSucceeded = false;
-            State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
+            _trackedStepPendingCompletion = null;
+            _trackedStepSwitchSucceeded = false;
+            State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
 
             CharacterRoutines.Remove(previousRoutine);
             _requestSave?.Invoke();
 
-            if (previousTrackedEntry is not null)
+            if (previousTrackedStep is not null)
             {
-                State.TrackedEntry.Value = null;
+                State.TrackedStep.Value = null;
             }
 
             State.SelectedRoutine.Value = null;
@@ -112,7 +120,7 @@ namespace Kenedia.Modules.Characters.Services
 
             SelectedRoutine = characterRoutine;
             State.SelectedRoutine.Value = SelectedRoutine;
-            State.TrackedEntry.Value = GetTrackedEntryForSelectedRoutine();
+            State.TrackedStep.Value = GetTrackedStepForSelectedRoutine();
         }
 
         public void UpdateSelectedRoutineName(string name)
@@ -128,186 +136,191 @@ namespace Kenedia.Modules.Characters.Services
             if (SelectedRoutine is null) return;
 
             SelectedRoutine.ResetFrequency = frequency;
-            _requestSave?.Invoke();
-        }
-
-        public void AddRoutineEntry(string characterName, string description)
-        {
-            SelectedRoutine.AddRoutineEntry(characterName, description);
-            _requestSave?.Invoke();
-        }
-
-        public void RemoveRoutineEntry(CharacterRoutineEntry entry)
-        {
-            if (SelectedRoutine is null || entry is null) return;
-            if (!SelectedRoutine.RoutineEntries.Contains(entry)) return;
-
-            bool trackedEntryRemoved = ReferenceEquals(_trackedEntryPendingCompletion, entry);
-            if (trackedEntryRemoved)
+            if (SelectedRoutine.CheckAndApplyScheduledReset())
             {
-                _trackedEntryPendingCompletion = null;
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
+                ClearTrackedStepIfReset();
             }
 
-            SelectedRoutine.RemoveRoutineEntry(entry);
+            _requestSave?.Invoke();
+        }
+
+        public void AddRoutineStep(string characterName, string description)
+        {
+            SelectedRoutine?.AddRoutineStep(characterName, description);
+            _requestSave?.Invoke();
+        }
+
+        public void RemoveRoutineStep(CharacterRoutineStep step)
+        {
+            if (SelectedRoutine is null || step is null) return;
+            if (!SelectedRoutine.RoutineSteps.Contains(step)) return;
+
+            bool trackedStepRemoved = ReferenceEquals(_trackedStepPendingCompletion, step);
+            if (trackedStepRemoved)
+            {
+                _trackedStepPendingCompletion = null;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
+            }
+
+            SelectedRoutine.RemoveRoutineStep(step);
             _requestSave?.Invoke();
 
-            if (trackedEntryRemoved)
+            if (trackedStepRemoved)
             {
-                State.TrackedEntry.Value = null;
+                State.TrackedStep.Value = null;
             }
         }
 
-        public void ReorderRoutineEntry(CharacterRoutineEntry entry, int targetIndex)
+        public void ReorderRoutineStep(CharacterRoutineStep step, int targetIndex)
         {
-            if (SelectedRoutine is null || entry is null) return;
+            if (SelectedRoutine is null || step is null) return;
 
-            int currentIndex = SelectedRoutine.RoutineEntries.IndexOf(entry);
+            int currentIndex = SelectedRoutine.RoutineSteps.IndexOf(step);
             if (currentIndex < 0 || currentIndex == targetIndex) return;
 
-            int insertAt = Math.Min(targetIndex, SelectedRoutine.RoutineEntries.Count - 1);
-            SelectedRoutine.RoutineEntries.Move(currentIndex, insertAt);
+            int insertAt = Math.Min(targetIndex, SelectedRoutine.RoutineSteps.Count - 1);
+            SelectedRoutine.RoutineSteps.Move(currentIndex, insertAt);
 
             _requestSave?.Invoke();
         }
 
-        public void UpdateRoutineEntry(CharacterRoutineEntry entry, string characterName, string description)
+        public void UpdateRoutineStep(CharacterRoutineStep step, string characterName, string description)
         {
-            if (entry is null) return;
+            if (step is null) return;
 
-            var list = FindRoutineByEntry(entry);
-            if (list is null) return;
+            var routine = FindRoutineByStep(step);
+            if (routine is null) return;
 
-            entry.CharacterName = characterName?.Trim();
-            entry.Description = description?.Trim();
+            step.CharacterName = characterName?.Trim();
+            step.Description = description?.Trim();
 
-            if (ReferenceEquals(_trackedEntryPendingCompletion, entry))
+            if (ReferenceEquals(_trackedStepPendingCompletion, step))
             {
-                _trackedEntrySwitchSucceeded = IsCurrentCharacter(entry.CharacterName);
-                State.EntrySwitchStatus.Value = _trackedEntrySwitchSucceeded
-                    ? CharacterRoutineEntrySwitchStatus.ReadyToComplete
-                    : string.IsNullOrWhiteSpace(entry.CharacterName)
-                        ? CharacterRoutineEntrySwitchStatus.CharacterNotAssigned
-                        : CharacterRoutineEntrySwitchStatus.None;
+                _trackedStepSwitchSucceeded = IsCurrentCharacter(step.CharacterName);
+                State.StepSwitchStatus.Value = _trackedStepSwitchSucceeded
+                    ? CharacterRoutineStepSwitchStatus.ReadyToComplete
+                    : string.IsNullOrWhiteSpace(step.CharacterName)
+                        ? CharacterRoutineStepSwitchStatus.CharacterNotAssigned
+                        : CharacterRoutineStepSwitchStatus.None;
             }
 
             _requestSave?.Invoke();
         }
 
-        public void SetRoutineEntryCompletion(CharacterRoutineEntry entry, bool completed)
+        public void SetRoutineStepCompletion(CharacterRoutineStep step, bool completed)
         {
-            if (entry is null) return;
-            if (entry.Completed == completed) return;
+            if (step is null) return;
+            if (step.IsCompleted == completed) return;
 
-            entry.Completed = completed;
+            step.SetCompleted(completed);
 
-            if (completed && ReferenceEquals(_trackedEntryPendingCompletion, entry))
+            if (completed && ReferenceEquals(_trackedStepPendingCompletion, step))
             {
-                _trackedEntryPendingCompletion = null;
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
-                State.TrackedEntry.Value = null;
+                _trackedStepPendingCompletion = null;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
+                State.TrackedStep.Value = null;
             }
 
             _requestSave?.Invoke();
         }
 
-        public void SetAllRoutineEntriesCompletion(bool completed)
+        public void SetAllRoutineStepsCompletion(bool completed)
         {
             if (SelectedRoutine is null) return;
 
             bool changedAny = false;
-            foreach (var entry in SelectedRoutine.RoutineEntries)
+            foreach (var step in SelectedRoutine.RoutineSteps)
             {
-                if (entry.Completed != completed)
+                if (step.IsCompleted != completed)
                 {
                     changedAny = true;
                 }
 
-                entry.Completed = completed;
+                step.SetCompleted(completed);
             }
 
-            bool trackedEntryCleared = false;
-            if (completed && _trackedEntryPendingCompletion is not null && SelectedRoutine.RoutineEntries.Contains(_trackedEntryPendingCompletion))
+            bool trackedStepCleared = false;
+            if (completed && _trackedStepPendingCompletion is not null && SelectedRoutine.RoutineSteps.Contains(_trackedStepPendingCompletion))
             {
-                _trackedEntryPendingCompletion = null;
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
-                trackedEntryCleared = true;
+                _trackedStepPendingCompletion = null;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
+                trackedStepCleared = true;
             }
 
-            if (!changedAny && !trackedEntryCleared) return;
+            if (!changedAny && !trackedStepCleared) return;
 
             _requestSave?.Invoke();
 
-            if (trackedEntryCleared)
+            if (trackedStepCleared)
             {
-                State.TrackedEntry.Value = null;
+                State.TrackedStep.Value = null;
             }
         }
 
-        public CharacterRoutineEntry GetTrackedEntryForSelectedRoutine()
+        public CharacterRoutineStep GetTrackedStepForSelectedRoutine()
         {
-            var list = SelectedRoutine;
-            var trackedEntry = _trackedEntryPendingCompletion;
-            return trackedEntry is null || list is null
+            var routine = SelectedRoutine;
+            var trackedStep = _trackedStepPendingCompletion;
+            return trackedStep is null || routine is null
                 ? null
-                : !list.RoutineEntries.Contains(trackedEntry) || !trackedEntry.Enabled || trackedEntry.Completed
+                : !routine.RoutineSteps.Contains(trackedStep) || !trackedStep.Enabled || trackedStep.IsCompleted
                     ? null
-                    : trackedEntry;
+                    : trackedStep;
         }
 
         public void RequestSwitchToCharacter(string characterName)
         {
             var character = CharacterModels.FirstOrDefault(c => c.Name.Equals(characterName, StringComparison.OrdinalIgnoreCase));
-            if (character != null)
+            if (character is not null)
             {
                 CharacterSwapping.Start(character);
             }
         }
 
-        public void SwitchToNextIncompleteRoutineEntry()
+        public void SwitchToNextIncompleteRoutineStep()
         {
             if (SelectedRoutine is null) return;
 
             bool changedCompletion = false;
-            var trackedEntry = GetTrackedEntryForSelectedRoutine();
-            var previousTrackedEntry = trackedEntry;
-            if (trackedEntry is not null)
+            var trackedStep = GetTrackedStepForSelectedRoutine();
+            var previousTrackedStep = trackedStep;
+            if (trackedStep is not null)
             {
-                if (!CanCompleteTrackedEntry(trackedEntry))
+                if (!CanCompleteTrackedStep(trackedStep))
                 {
-                    TryStartSwitchForEntry(trackedEntry);
+                    TryStartSwitchForStep(trackedStep);
                     return;
                 }
 
-                trackedEntry.Completed = true;
+                trackedStep.SetCompleted(true);
                 changedCompletion = true;
-                _trackedEntryPendingCompletion = null;
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
+                _trackedStepPendingCompletion = null;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
             }
 
-            var nextEntry = GetNextIncompleteRoutineEntry(SelectedRoutine);
+            var nextStep = GetNextIncompleteRoutineStep(SelectedRoutine);
 
-            if (nextEntry is not null)
+            if (nextStep is not null)
             {
-                _trackedEntryPendingCompletion = nextEntry;
-                _trackedEntrySwitchSucceeded = IsCurrentCharacter(nextEntry.CharacterName);
-                if (_trackedEntrySwitchSucceeded)
+                _trackedStepPendingCompletion = nextStep;
+                _trackedStepSwitchSucceeded = IsCurrentCharacter(nextStep.CharacterName);
+                if (_trackedStepSwitchSucceeded)
                 {
-                    State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.ReadyToComplete;
+                    State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.ReadyToComplete;
                 }
                 else
                 {
-                    TryStartSwitchForEntry(nextEntry);
+                    TryStartSwitchForStep(nextStep);
                 }
             }
 
-            if (!ReferenceEquals(previousTrackedEntry, _trackedEntryPendingCompletion))
+            if (!ReferenceEquals(previousTrackedStep, _trackedStepPendingCompletion))
             {
-                State.TrackedEntry.Value = _trackedEntryPendingCompletion;
+                State.TrackedStep.Value = _trackedStepPendingCompletion;
             }
 
             if (changedCompletion)
@@ -316,82 +329,138 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
+        public void SetRoutineStepEnabled(CharacterRoutineStep step, bool enabled)
+        {
+            if (step is null) return;
+            if (step.Enabled == enabled) return;
+
+            var routine = FindRoutineByStep(step);
+            if (routine is null) return;
+
+            step.Enabled = enabled;
+
+            bool trackedStepChanged = false;
+            if (ReferenceEquals(_trackedStepPendingCompletion, step) && !enabled)
+            {
+                _trackedStepPendingCompletion = null;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
+                trackedStepChanged = true;
+            }
+
+            if (ReferenceEquals(routine, SelectedRoutine))
+            {
+                var trackedStep = GetTrackedStepForSelectedRoutine();
+                if (!ReferenceEquals(State.TrackedStep.Value, trackedStep))
+                {
+                    State.TrackedStep.Value = trackedStep;
+                }
+                else if (trackedStepChanged)
+                {
+                    State.TrackedStep.Value = null;
+                }
+            }
+
+            _requestSave?.Invoke();
+        }
+
+        public CharacterRoutineStep GetNextIncompleteRoutineStep(CharacterRoutineModel characterRoutine)
+        {
+            return characterRoutine?.RoutineSteps.FirstOrDefault(step => step.Enabled && !step.IsCompleted);
+        }
+
         public void Dispose()
         {
             CharacterSwapping.Succeeded -= CharacterSwapping_Succeeded;
             CharacterSwapping.Failed -= CharacterSwapping_Failed;
         }
 
-        private CharacterRoutineModel FindRoutineByEntry(CharacterRoutineEntry entry)
+        private CharacterRoutineModel FindRoutineByStep(CharacterRoutineStep step)
         {
-            return entry is null ? null : CharacterRoutines.FirstOrDefault(list => list.RoutineEntries.Contains(entry));
+            return step is null ? null : CharacterRoutines.FirstOrDefault(routine => routine.RoutineSteps.Contains(step));
         }
 
         private void CharacterSwapping_Succeeded(object sender, EventArgs e)
         {
-            var trackedEntry = _trackedEntryPendingCompletion;
-            if (trackedEntry is null)
+            var trackedStep = _trackedStepPendingCompletion;
+            if (trackedStep is null)
             {
                 return;
             }
 
-            if (DoesEntryMatchCharacter(trackedEntry, CharacterSwapping.Character))
+            if (DoesStepMatchCharacter(trackedStep, CharacterSwapping.Character))
             {
-                _trackedEntrySwitchSucceeded = true;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.ReadyToComplete;
+                _trackedStepSwitchSucceeded = true;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.ReadyToComplete;
             }
         }
 
         private void CharacterSwapping_Failed(object sender, EventArgs e)
         {
-            var trackedEntry = _trackedEntryPendingCompletion;
-            if (trackedEntry is null)
+            var trackedStep = _trackedStepPendingCompletion;
+            if (trackedStep is null)
             {
                 return;
             }
 
-            if (DoesEntryMatchCharacter(trackedEntry, CharacterSwapping.Character))
+            if (DoesStepMatchCharacter(trackedStep, CharacterSwapping.Character))
             {
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.Failed;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.Failed;
             }
         }
 
-        private bool CanCompleteTrackedEntry(CharacterRoutineEntry entry)
+        private bool CanCompleteTrackedStep(CharacterRoutineStep step)
         {
-            return entry is not null && (_trackedEntrySwitchSucceeded || IsCurrentCharacter(entry.CharacterName));
+            return step is not null && (_trackedStepSwitchSucceeded || IsCurrentCharacter(step.CharacterName));
         }
 
-        private bool TryStartSwitchForEntry(CharacterRoutineEntry entry)
+        private bool TryStartSwitchForStep(CharacterRoutineStep step)
         {
-            string characterName = entry?.CharacterName?.Trim();
+            string characterName = step?.CharacterName?.Trim();
             if (string.IsNullOrEmpty(characterName))
             {
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.CharacterNotAssigned;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.CharacterNotAssigned;
                 return false;
             }
 
             var character = CharacterModels.FirstOrDefault(c => c.Name.Equals(characterName, StringComparison.OrdinalIgnoreCase));
             if (character is null)
             {
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.CharacterNotFound;
+                _trackedStepSwitchSucceeded = false;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.CharacterNotFound;
                 return false;
             }
 
-            _trackedEntrySwitchSucceeded = IsCurrentCharacter(character.Name);
-            if (!_trackedEntrySwitchSucceeded)
+            _trackedStepSwitchSucceeded = IsCurrentCharacter(character.Name);
+            if (!_trackedStepSwitchSucceeded)
             {
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.Switching;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.Switching;
                 CharacterSwapping.Start(character);
             }
             else
             {
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.ReadyToComplete;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.ReadyToComplete;
             }
 
             return true;
+        }
+
+        private void ClearTrackedStepIfReset()
+        {
+            if (_trackedStepPendingCompletion is null)
+            {
+                return;
+            }
+
+            if (GetTrackedStepForSelectedRoutine() is null)
+            {
+                _trackedStepPendingCompletion = null;
+                _trackedStepSwitchSucceeded = false;
+                State.TrackedStep.Value = null;
+                State.StepSwitchStatus.Value = CharacterRoutineStepSwitchStatus.None;
+            }
         }
 
         private bool IsCurrentCharacter(string characterName)
@@ -403,52 +472,12 @@ namespace Kenedia.Modules.Characters.Services
                 && GameService.GameIntegration.Gw2Instance.IsInGame;
         }
 
-        private static bool DoesEntryMatchCharacter(CharacterRoutineEntry entry, Character_Model character)
+        private static bool DoesStepMatchCharacter(CharacterRoutineStep step, Character_Model character)
         {
-            return entry is not null
+            return step is not null
                 && character is not null
-                && !string.IsNullOrWhiteSpace(entry.CharacterName)
-                && entry.CharacterName.Equals(character.Name, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public void SetRoutineEntryEnabled(CharacterRoutineEntry entry, bool enabled)
-        {
-            if (entry is null) return;
-            if (entry.Enabled == enabled) return;
-
-            var list = FindRoutineByEntry(entry);
-            if (list is null) return;
-
-            entry.Enabled = enabled;
-
-            bool trackedEntryChanged = false;
-            if (ReferenceEquals(_trackedEntryPendingCompletion, entry) && !enabled)
-            {
-                _trackedEntryPendingCompletion = null;
-                _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
-                trackedEntryChanged = true;
-            }
-
-            if (ReferenceEquals(list, SelectedRoutine))
-            {
-                var trackedEntry = GetTrackedEntryForSelectedRoutine();
-                if (!ReferenceEquals(State.TrackedEntry.Value, trackedEntry))
-                {
-                    State.TrackedEntry.Value = trackedEntry;
-                }
-                else if (trackedEntryChanged)
-                {
-                    State.TrackedEntry.Value = null;
-                }
-            }
-
-            _requestSave?.Invoke();
-        }
-
-        public CharacterRoutineEntry GetNextIncompleteRoutineEntry(CharacterRoutineModel characterRoutine)
-        {
-            return characterRoutine?.RoutineEntries.FirstOrDefault(e => e.Enabled && !e.Completed);
+                && !string.IsNullOrWhiteSpace(step.CharacterName)
+                && step.CharacterName.Equals(character.Name, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

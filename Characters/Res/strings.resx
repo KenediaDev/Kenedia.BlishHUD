@@ -1056,7 +1056,7 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Key to open or close the character routine window</value>
   </data>
   <data name="NextCharacterRoutineEntryKey" xml:space="preserve">
-    <value>Next Routine Entry</value>
+    <value>Next Step</value>
   </data>
   <data name="NextCharacterRoutineEntryKey_Tooltip" xml:space="preserve">
     <value>Key to swap to the next incomplete character in the active character routine</value>
@@ -1089,16 +1089,16 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Assign Character ...</value>
   </data>
   <data name="RoutineEntryDescriptionPlaceholder" xml:space="preserve">
-    <value>Routine entry description (optional)</value>
+    <value>Step description (optional)</value>
   </data>
   <data name="AddRoutineEntry" xml:space="preserve">
-    <value>Add Routine Entry</value>
+    <value>Add Step</value>
   </data>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copy Character Name</value>
   </data>
   <data name="RoutineEntries" xml:space="preserve">
-    <value>Routine Entries</value>
+    <value>Steps</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
@@ -1107,7 +1107,7 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Finish</value>
   </data>
   <data name="CompletedRoutineEntriesHiddenTooltip" xml:space="preserve">
-    <value>Completed routine entries are hidden based on your settings.</value>
+    <value>Completed steps are hidden based on your settings.</value>
   </data>
   <data name="UncheckAll" xml:space="preserve">
     <value>Uncheck All</value>
@@ -1119,10 +1119,10 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Complete the character routine.</value>
   </data>
   <data name="SwitchToFirstIncomplete" xml:space="preserve">
-    <value>Switch to the first incomplete routine entry.</value>
+    <value>Switch to the first incomplete step.</value>
   </data>
   <data name="AllRoutineEntriesComplete" xml:space="preserve">
-    <value>All routine entries in this character routine are complete.</value>
+    <value>All steps in this character routine are complete.</value>
   </data>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>Next click marks '{0}' complete.</value>
@@ -1134,7 +1134,7 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Retry</value>
   </data>
   <data name="RoutineEntryCharacterNotFound" xml:space="preserve">
-    <value>Character '{0}' was not found. Update this routine entry to continue.</value>
+    <value>Character '{0}' was not found. Update this step to continue.</value>
   </data>
   <data name="RoutineEntryCharacterNotAssigned" xml:space="preserve">
     <value>No character is assigned. Assign one to continue.</value>
@@ -1149,28 +1149,28 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Edit Entry</value>
   </data>
   <data name="RemoveRoutineEntry" xml:space="preserve">
-    <value>Remove Entry</value>
+    <value>Remove Step</value>
   </data>
   <data name="DeleteConfirmationTitle" xml:space="preserve">
     <value>Confirm deletion</value>
   </data>
   <data name="ConfirmCharacterRoutineEntryDelete" xml:space="preserve">
-    <value>Remove routine entry '{0}'? This cannot be undone.</value>
+    <value>Remove step '{0}'? This cannot be undone.</value>
   </data>
   <data name="ConfirmCharacterRoutineDelete" xml:space="preserve">
-    <value>Delete character routine '{0}' and all of its routine entries? This cannot be undone.</value>
+    <value>Delete character routine '{0}' and all of its steps? This cannot be undone.</value>
   </data>
   <data name="CharacterRoutineDefaultName" xml:space="preserve">
     <value>Character Routine {0}</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior" xml:space="preserve">
-    <value>Completed Routine Entries Behavior</value>
+    <value>Completed Steps Behavior</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior_Nothing" xml:space="preserve">
     <value>Nothing</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior_Hide" xml:space="preserve">
-    <value>Hide completed routine entries</value>
+    <value>Hide completed steps</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior_MoveToBottom" xml:space="preserve">
     <value>Move completed to bottom</value>

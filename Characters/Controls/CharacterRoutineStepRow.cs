@@ -14,7 +14,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Button = Kenedia.Modules.Core.Controls.Button;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using ImageButton = Kenedia.Modules.Core.Controls.ImageButton;
 using Label = Kenedia.Modules.Core.Controls.Label;
@@ -23,23 +22,21 @@ using TextBox = Blish_HUD.Controls.TextBox;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class CharacterRoutineEntryRow : Panel
+    public class CharacterRoutineStepRow : Panel
     {
         private const int HandleWidth = 14;
         private const int ButtonSize = 24;
         private const int ButtonSpacing = 6;
-        private const int EditButtonsSpacing = 5;
-        private const int EditButtonsRightPadding = 10;
 
-        private static readonly Color BackgroundDefault = new Color(40, 40, 40, 150);
-        private static readonly Color BackgroundCompleted = new Color(40, 80, 40, 150);
-        private static readonly Color BackgroundEditing = new Color(50, 50, 70, 180);
-        private static readonly Color BackgroundTracked = new Color(80, 70, 30, 170);
+        private static readonly Color BackgroundDefault = new(40, 40, 40, 150);
+        private static readonly Color BackgroundCompleted = new(40, 80, 40, 150);
+        private static readonly Color BackgroundEditing = new(50, 50, 70, 180);
+        private static readonly Color BackgroundTracked = new(80, 70, 30, 170);
 
         private readonly CharacterRoutineService _service;
-        private ObservableCollection<Character_Model> _characterModels;
-        private readonly CharacterRoutineEntry _entry;
-        private readonly Action<CharacterRoutineEntryRow> _onDragStartRequested;
+        private readonly ObservableCollection<Character_Model> _characterModels;
+        private readonly CharacterRoutineStep _step;
+        private readonly Action<CharacterRoutineStepRow> _onDragStartRequested;
 
         private readonly Checkbox _completionCheckbox;
         private readonly Checkbox _enabledCheckbox;
@@ -49,60 +46,58 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly ImageButton _editButton;
         private readonly ImageButton _removeButton;
         private readonly AutoSuggestComboBox<Character_Model> _editCharacterSuggestionBox;
-        private readonly TextBox _editDescBox;
+        private readonly TextBox _editDescriptionBox;
         private readonly ImageButton _saveButton;
         private readonly ImageButton _cancelButton;
 
         private bool _isEditing;
         private bool _hasAppliedModeVisibility;
         private bool _handleHovered;
-        private bool _syncingCompletionCheckbox;
+        private bool _syncingCheckboxes;
 
-        public CharacterRoutineEntry Entry => _entry;
+        public CharacterRoutineStep Step => _step;
 
         public bool IsDragging { get; set; }
 
-        public CharacterRoutineEntryRow(CharacterRoutineService service, ObservableCollection<Character_Model> characterModels, CharacterRoutineEntry entry, Action<CharacterRoutineEntryRow> onDragStartRequested)
+        public CharacterRoutineStepRow(CharacterRoutineService service, ObservableCollection<Character_Model> characterModels, CharacterRoutineStep step, Action<CharacterRoutineStepRow> onDragStartRequested)
         {
             _service = service;
             _characterModels = characterModels;
-            _entry = entry;
+            _step = step;
             _onDragStartRequested = onDragStartRequested;
 
             Height = 32;
-            _entry.PropertyChanged += Entry_PropertyChanged;
-            _service.State.TrackedEntry.Changed += TrackedEntry_Changed;
+            _step.PropertyChanged += Step_PropertyChanged;
+            _service.State.TrackedStep.Changed += TrackedStep_Changed;
 
             _completionCheckbox = new Checkbox()
             {
                 Parent = this,
-                Checked = _entry.Completed,
+                Checked = _step.IsCompleted,
                 Location = new Point(HandleWidth + 4, 8),
                 Width = 20,
                 CheckedChangedAction = (completed) =>
                 {
-                    if (_syncingCompletionCheckbox) return;
-
-                    _service.SetRoutineEntryCompletion(_entry, completed);
+                    if (_syncingCheckboxes) return;
+                    _service.SetRoutineStepCompletion(_step, completed);
                 },
             };
 
             _enabledCheckbox = new Checkbox()
             {
                 Parent = this,
-                Checked = _entry.Enabled,
+                Checked = _step.Enabled,
                 Location = new Point(HandleWidth, 8),
                 Width = 20,
                 Visible = false,
                 CheckedChangedAction = (enabled) =>
                 {
-                    if (_syncingCompletionCheckbox) return;
-
-                    _service.SetRoutineEntryEnabled(_entry, enabled);
+                    if (_syncingCheckboxes) return;
+                    _service.SetRoutineStepEnabled(_step, enabled);
                 },
             };
 
-            int labelX = HandleWidth + 4 + 20 + 4;
+            int labelX = HandleWidth + 28;
             int descX = labelX + 165;
 
             _nameLabel = new Label()
@@ -135,7 +130,7 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = AsyncTexture2D.FromAssetId(157094),
                 Size = new Point(ButtonSize, ButtonSize),
                 BasicTooltipText = string.Format(strings.Switch, strings.Character),
-                ClickAction = (_) => _service.RequestSwitchToCharacter(_entry.CharacterName),
+                ClickAction = (_) => _service.RequestSwitchToCharacter(_step.CharacterName),
             };
 
             _editButton = new ImageButton()
@@ -154,8 +149,8 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
                 ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
                 Size = new Point(ButtonSize, ButtonSize),
-                BasicTooltipText = strings.RemoveRoutineEntry,
-                ClickAction = (_) => ConfirmRemoveRoutineEntry(),
+                BasicTooltipText = strings.RemoveRoutineStep,
+                ClickAction = (_) => ConfirmRemoveRoutineStep(),
             };
 
             _editCharacterSuggestionBox = new AutoSuggestComboBox<Character_Model>()
@@ -172,12 +167,12 @@ namespace Kenedia.Modules.Characters.Controls
                 BlankSelectionText = strings.Unassigned,
             };
 
-            _editDescBox = new TextBox()
+            _editDescriptionBox = new TextBox()
             {
                 Parent = this,
-                PlaceholderText = strings.RoutineEntryDescriptionPlaceholder,
+                PlaceholderText = strings.RoutineStepDescriptionPlaceholder,
                 Location = new Point(descX - 8, 2),
-                Width = 310 + 16,
+                Width = 326,
                 Height = 28,
             };
 
@@ -189,9 +184,9 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Save_Hovered, nameof(textures_common.Save_Hovered)),
                 ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Save_Active, nameof(textures_common.Save_Active)),
                 Size = new Point(ButtonSize, ButtonSize),
-                ClickAction = (b) =>
+                ClickAction = (_) =>
                 {
-                    _service.UpdateRoutineEntry(_entry, _editCharacterSuggestionBox.Selected?.Name, _editDescBox.Text);
+                    _service.UpdateRoutineStep(_step, _editCharacterSuggestionBox.Selected?.Name, _editDescriptionBox.Text);
                     SetEditMode(false);
                 },
             };
@@ -204,37 +199,15 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Cancel_Hovered, nameof(textures_common.Cancel_Hovered)),
                 ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Cancel_Active, nameof(textures_common.Cancel_Active)),
                 Size = new Point(ButtonSize, ButtonSize),
-                ClickAction = (b) =>
+                ClickAction = (_) =>
                 {
                     SetEditMode(false);
-                    RefreshFromEntry();
+                    RefreshFromStep();
                 },
             };
 
-            RefreshFromEntry();
+            RefreshFromStep();
             SetEditMode(false);
-        }
-
-        private async void ConfirmRemoveRoutineEntry()
-        {
-            string entryName = !string.IsNullOrWhiteSpace(_entry.CharacterName)
-                ? _entry.CharacterName
-                : !string.IsNullOrWhiteSpace(_entry.Description)
-                    ? _entry.Description
-                    : strings.Unassigned;
-
-            var result = await new BaseDialog(
-                strings.DeleteConfirmationTitle,
-                string.Format(strings.ConfirmCharacterRoutineEntryDelete, entryName))
-            {
-                DesiredWidth = 360,
-                AutoSize = true,
-            }.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                _service.RemoveRoutineEntry(_entry);
-            }
         }
 
         protected override void OnResized(ResizedEventArgs e)
@@ -249,8 +222,8 @@ namespace Kenedia.Modules.Characters.Controls
             _saveButton?.Location = _editButton?.Location ?? Point.Zero;
             _cancelButton?.Location = _removeButton?.Location ?? Point.Zero;
 
-            _descriptionLabel?.Size = new Point(Math.Max(0, (_switchButton?.Left - _descriptionLabel.Left - (ButtonSpacing * 2)) ?? 0), _descriptionLabel?.Height ?? 0);
-            _editDescBox?.Size = new Point((_switchButton?.Right - _editDescBox?.Left) ?? 0, _editDescBox?.Height ?? 0);
+            _descriptionLabel?.Size = new Point(Math.Max(0, _switchButton?.Left ?? 0 - _descriptionLabel.Left - (ButtonSpacing * 2)), _descriptionLabel.Height);
+            _editDescriptionBox?.Size = new Point(Math.Max(0, (_switchButton?.Right ?? 0) - _editDescriptionBox.Left), _editDescriptionBox.Height);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -265,31 +238,6 @@ namespace Kenedia.Modules.Characters.Controls
             if (!_isEditing)
             {
                 DrawDragHandle(spriteBatch);
-            }
-        }
-
-        private void DrawDragHandle(SpriteBatch spriteBatch)
-        {
-            var color = _handleHovered ? new Color(200, 200, 200) : new Color(100, 100, 100);
-            int dotSize = 2;
-            int gapH = 3;
-            int gapV = 3;
-            int cols = 2;
-            int rows = 3;
-            int totalWidth = cols * dotSize + (cols - 1) * gapH;
-            int totalHeight = rows * dotSize + (rows - 1) * gapV;
-            int startX = (HandleWidth - totalWidth) / 2;
-            int startY = (Height - totalHeight) / 2;
-
-            for (int r = 0; r < rows; r++)
-            {
-                for (int c = 0; c < cols; c++)
-                {
-                    int x = startX + c * (dotSize + gapH);
-                    int y = startY + r * (dotSize + gapV);
-                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel,
-                        new Rectangle(x, y, dotSize, dotSize), Rectangle.Empty, color);
-                }
             }
         }
 
@@ -314,6 +262,59 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
+        protected override void DisposeControl()
+        {
+            _step.PropertyChanged -= Step_PropertyChanged;
+            _service.State.TrackedStep.Changed -= TrackedStep_Changed;
+            base.DisposeControl();
+        }
+
+        private async void ConfirmRemoveRoutineStep()
+        {
+            string stepName = !string.IsNullOrWhiteSpace(_step.CharacterName)
+                ? _step.CharacterName
+                : !string.IsNullOrWhiteSpace(_step.Description)
+                    ? _step.Description
+                    : strings.Unassigned;
+
+            var result = await new BaseDialog(
+                strings.DeleteConfirmationTitle,
+                string.Format(strings.ConfirmCharacterRoutineStepDelete, stepName))
+            {
+                DesiredWidth = 360,
+                AutoSize = true,
+            }.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                _service.RemoveRoutineStep(_step);
+            }
+        }
+
+        private void DrawDragHandle(SpriteBatch spriteBatch)
+        {
+            Color color = _handleHovered ? new Color(200, 200, 200) : new Color(100, 100, 100);
+            const int dotSize = 2;
+            const int gapH = 3;
+            const int gapV = 3;
+            const int cols = 2;
+            const int rows = 3;
+            int totalWidth = cols * dotSize + (cols - 1) * gapH;
+            int totalHeight = rows * dotSize + (rows - 1) * gapV;
+            int startX = (HandleWidth - totalWidth) / 2;
+            int startY = (Height - totalHeight) / 2;
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    int x = startX + col * (dotSize + gapH);
+                    int y = startY + row * (dotSize + gapV);
+                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(x, y, dotSize, dotSize), Rectangle.Empty, color);
+                }
+            }
+        }
+
         private void SetEditMode(bool editing)
         {
             if (_isEditing == editing && _hasAppliedModeVisibility) return;
@@ -322,21 +323,21 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (_isEditing)
             {
-                _editCharacterSuggestionBox.Selected = _characterModels.FirstOrDefault(c => c.Name.Equals(_entry.CharacterName, StringComparison.OrdinalIgnoreCase));
-                _editCharacterSuggestionBox.Text = _editCharacterSuggestionBox.Selected?.Name ?? _entry.CharacterName ?? string.Empty;
-                _editDescBox.Text = _entry.Description ?? string.Empty;
+                _editCharacterSuggestionBox.Selected = _characterModels.FirstOrDefault(c => c.Name.Equals(_step.CharacterName, StringComparison.OrdinalIgnoreCase));
+                _editCharacterSuggestionBox.Text = _editCharacterSuggestionBox.Selected?.Name ?? _step.CharacterName ?? string.Empty;
+                _editDescriptionBox.Text = _step.Description ?? string.Empty;
             }
 
             _completionCheckbox.Visible = !_isEditing;
             _nameLabel.Visible = !_isEditing;
-            _descriptionLabel.Visible = !_isEditing && !string.IsNullOrEmpty(_entry.Description);
+            _descriptionLabel.Visible = !_isEditing && !string.IsNullOrEmpty(_step.Description);
             _switchButton.Visible = !_isEditing;
             _editButton.Visible = !_isEditing;
             _removeButton.Visible = !_isEditing;
 
             _enabledCheckbox.Visible = _isEditing;
             _editCharacterSuggestionBox.Visible = _isEditing;
-            _editDescBox.Visible = _isEditing;
+            _editDescriptionBox.Visible = _isEditing;
             _saveButton.Visible = _isEditing;
             _cancelButton.Visible = _isEditing;
 
@@ -349,22 +350,22 @@ namespace Kenedia.Modules.Characters.Controls
             RefreshVisualState();
         }
 
-        private void RefreshFromEntry()
+        private void RefreshFromStep()
         {
-            _syncingCompletionCheckbox = true;
-            _completionCheckbox.Checked = _entry.Completed;
-            _enabledCheckbox.Checked = _entry.Enabled;
-            _syncingCompletionCheckbox = false;
+            _syncingCheckboxes = true;
+            _completionCheckbox.Checked = _step.IsCompleted;
+            _enabledCheckbox.Checked = _step.Enabled;
+            _syncingCheckboxes = false;
 
-            _nameLabel.Text = _entry.CharacterName ?? string.Empty;
-            _descriptionLabel.Text = _entry.Description ?? string.Empty;
-            _descriptionLabel.Visible = !_isEditing && !string.IsNullOrEmpty(_entry.Description);
+            _nameLabel.Text = _step.CharacterName ?? string.Empty;
+            _descriptionLabel.Text = _step.Description ?? string.Empty;
+            _descriptionLabel.Visible = !_isEditing && !string.IsNullOrEmpty(_step.Description);
 
             if (_isEditing)
             {
-                _editCharacterSuggestionBox.Selected = _characterModels.FirstOrDefault(c => c.Name.Equals(_entry.CharacterName, StringComparison.OrdinalIgnoreCase));
-                _editCharacterSuggestionBox.Text = _editCharacterSuggestionBox.Selected?.Name ?? _entry.CharacterName ?? string.Empty;
-                _editDescBox.Text = _entry.Description ?? string.Empty;
+                _editCharacterSuggestionBox.Selected = _characterModels.FirstOrDefault(c => c.Name.Equals(_step.CharacterName, StringComparison.OrdinalIgnoreCase));
+                _editCharacterSuggestionBox.Text = _editCharacterSuggestionBox.Selected?.Name ?? _step.CharacterName ?? string.Empty;
+                _editDescriptionBox.Text = _step.Description ?? string.Empty;
             }
 
             RefreshVisualState();
@@ -372,43 +373,34 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Color ResolveBackgroundColor()
         {
-            bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedRoutine() == _entry;
+            bool isTracked = !_isEditing && !_step.IsCompleted && _service.GetTrackedStepForSelectedRoutine() == _step;
 
-            var backgroundColor =
-                  _isEditing ? BackgroundEditing
-                : _entry.Completed ? BackgroundCompleted
+            return _isEditing ? BackgroundEditing
+                : _step.IsCompleted ? BackgroundCompleted
                 : isTracked ? BackgroundTracked
-                            : BackgroundDefault;
-            return backgroundColor;
+                : BackgroundDefault;
         }
 
-        public void RefreshVisualState()
+        private void RefreshVisualState()
         {
             BackgroundColor = ResolveBackgroundColor();
         }
 
-        protected override void DisposeControl()
+        private void Step_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            _entry.PropertyChanged -= Entry_PropertyChanged;
-            _service.State.TrackedEntry.Changed -= TrackedEntry_Changed;
-            base.DisposeControl();
-        }
-
-        private void Entry_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(CharacterRoutineEntry.CharacterName)
-                || e.PropertyName == nameof(CharacterRoutineEntry.Description)
-                || e.PropertyName == nameof(CharacterRoutineEntry.Completed)
-                || e.PropertyName == nameof(CharacterRoutineEntry.Enabled)
+            if (e.PropertyName == nameof(CharacterRoutineStep.CharacterName)
+                || e.PropertyName == nameof(CharacterRoutineStep.Description)
+                || e.PropertyName == nameof(CharacterRoutineStep.Completed)
+                || e.PropertyName == nameof(CharacterRoutineStep.Enabled)
                 || string.IsNullOrEmpty(e.PropertyName))
             {
-                RefreshFromEntry();
+                RefreshFromStep();
             }
         }
 
-        private void TrackedEntry_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineEntry> e)
+        private void TrackedStep_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineStep> e)
         {
-            if (ReferenceEquals(e.NewValue, _entry) || ReferenceEquals(e.OldValue, _entry))
+            if (ReferenceEquals(e.NewValue, _step) || ReferenceEquals(e.OldValue, _step))
             {
                 RefreshVisualState();
             }

@@ -34,8 +34,9 @@ namespace Kenedia.Modules.Characters.Services
             InventoryKey = internalSettings.DefineSetting(nameof(InventoryKey), new KeyBinding(Keys.I));
             MailKey = internalSettings.DefineSetting(nameof(MailKey), new KeyBinding(Keys.None));
             ToggleCharacterRoutineKey = internalSettings.DefineSetting(nameof(ToggleCharacterRoutineKey), new KeyBinding(Keys.None));
-            NextCharacterRoutineEntryKey = internalSettings.DefineSetting(nameof(NextCharacterRoutineEntryKey), new KeyBinding(Keys.None));
-            CompletedRoutineEntriesBehavior = internalSettings.DefineSetting(nameof(CompletedRoutineEntriesBehavior), CompletedRoutineEntriesDisplayBehavior.Nothing);
+            // Keep the persisted setting ids stable so existing account settings continue to load.
+            NextCharacterRoutineStepKey = internalSettings.DefineSetting("NextCharacterRoutineEntryKey", new KeyBinding(Keys.None));
+            CompletedRoutineStepsBehavior = internalSettings.DefineSetting("CompletedRoutineEntriesBehavior", CompletedRoutineStepsDisplayBehavior.Nothing);
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             CloseWindowOnSwap = internalSettings.DefineSetting(nameof(CloseWindowOnSwap), false);
             FilterDiacriticsInsensitive = internalSettings.DefineSetting(nameof(FilterDiacriticsInsensitive), false);
@@ -175,11 +176,11 @@ namespace Kenedia.Modules.Characters.Services
             Custom,
         }
 
-        public enum CompletedRoutineEntriesDisplayBehavior
+        public enum CompletedRoutineStepsDisplayBehavior
         {
             Nothing,
-            HideCompletedRoutineEntries,
-            MoveCompletedRoutineEntriesToBottomOfDisplay,
+            HideCompletedRoutineSteps,
+            MoveCompletedRoutineStepsToBottomOfDisplay,
         }
 
         public SettingCollection AccountSettings { get; private set; }
@@ -311,9 +312,9 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<KeyBinding> ToggleCharacterRoutineKey { get; private set; }
 
-        public SettingEntry<KeyBinding> NextCharacterRoutineEntryKey { get; private set; }
+        public SettingEntry<KeyBinding> NextCharacterRoutineStepKey { get; private set; }
 
-        public SettingEntry<CompletedRoutineEntriesDisplayBehavior> CompletedRoutineEntriesBehavior { get; private set; }
+        public SettingEntry<CompletedRoutineStepsDisplayBehavior> CompletedRoutineStepsBehavior { get; private set; }
 
         public SettingEntry<bool> OnlyEnterOnExact { get; private set; }
 

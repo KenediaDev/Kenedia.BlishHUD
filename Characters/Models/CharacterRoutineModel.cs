@@ -18,7 +18,7 @@ namespace Kenedia.Modules.Characters.Models
 
     public class CharacterRoutineModel : INotifyPropertyChanged
     {
-        private ObservableCollection<CharacterRoutineEntry> _entries = [];
+        private ObservableCollection<CharacterRoutineStep> _steps = [];
 
         public Guid Id
         {
@@ -32,10 +32,10 @@ namespace Kenedia.Modules.Characters.Models
             set => SetField(ref field, value);
         } = string.Empty;
 
-        public ObservableCollection<CharacterRoutineEntry> RoutineEntries
+        public ObservableCollection<CharacterRoutineStep> RoutineSteps
         {
-            get => _entries;
-            set => SetRoutineEntries(value ?? []);
+            get => _steps;
+            set => SetRoutineSteps(value ?? []);
         }
 
         public DateTimeOffset Created
@@ -51,17 +51,11 @@ namespace Kenedia.Modules.Characters.Models
             set => SetField(ref field, value);
         } = ResetFrequency.None;
 
-        public DateTimeOffset? LastReset
-        {
-            get;
-            set => SetField(ref field, value);
-        }
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public CharacterRoutineModel()
         {
-            HookRoutineEntries(_entries);
+            HookRoutineSteps(_steps);
         }
 
         public CharacterRoutineModel(string name)
@@ -70,21 +64,21 @@ namespace Kenedia.Modules.Characters.Models
             Name = name;
         }
 
-        public void AddRoutineEntry(string characterName, string description)
+        public void AddRoutineStep(string characterName, string description)
         {
-            RoutineEntries.Add(new CharacterRoutineEntry(characterName, description));
+            RoutineSteps.Add(new CharacterRoutineStep(characterName, description));
         }
 
-        public void RemoveRoutineEntry(CharacterRoutineEntry entry)
+        public void RemoveRoutineStep(CharacterRoutineStep step)
         {
-            RoutineEntries.Remove(entry);
+            RoutineSteps.Remove(step);
         }
 
         public void ResetCompletion()
         {
-            foreach (var entry in RoutineEntries)
+            foreach (var step in RoutineSteps)
             {
-                entry.Completed = false;
+                step.Completed = null;
             }
         }
 
@@ -107,15 +101,22 @@ namespace Kenedia.Modules.Characters.Models
                 return false;
             }
 
-            // If we've never reset, or the last reset was before the most recent boundary, reset now.
-            if (LastReset == null || LastReset.Value < boundary.Value)
+            bool resetAny = false;
+            foreach (var step in RoutineSteps)
             {
-                ResetCompletion();
-                LastReset = now;
-                return true;
+                if (!step.Completed.HasValue)
+                {
+                    continue;
+                }
+
+                if (step.Completed.Value < boundary.Value.UtcDateTime)
+                {
+                    step.Completed = null;
+                    resetAny = true;
+                }
             }
 
-            return false;
+            return resetAny;
         }
 
         private DateTimeOffset? GetMostRecentResetBoundary(DateTimeOffset now)
@@ -146,74 +147,74 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
-        private void SetRoutineEntries(ObservableCollection<CharacterRoutineEntry> entries)
+        private void SetRoutineSteps(ObservableCollection<CharacterRoutineStep> steps)
         {
-            if (ReferenceEquals(_entries, entries)) return;
+            if (ReferenceEquals(_steps, steps)) return;
 
-            UnhookRoutineEntries(_entries);
-            _entries = entries;
-            HookRoutineEntries(_entries);
-            OnPropertyChanged(nameof(RoutineEntries));
+            UnhookRoutineSteps(_steps);
+            _steps = steps;
+            HookRoutineSteps(_steps);
+            OnPropertyChanged(nameof(RoutineSteps));
         }
 
-        private void HookRoutineEntries(ObservableCollection<CharacterRoutineEntry> entries)
+        private void HookRoutineSteps(ObservableCollection<CharacterRoutineStep> steps)
         {
-            if (entries is null) return;
+            if (steps is null) return;
 
-            entries.CollectionChanged += RoutineEntries_CollectionChanged;
-            foreach (var entry in entries)
+            steps.CollectionChanged += RoutineSteps_CollectionChanged;
+            foreach (var step in steps)
             {
-                HookEntry(entry);
+                HookStep(step);
             }
         }
 
-        private void UnhookRoutineEntries(ObservableCollection<CharacterRoutineEntry> entries)
+        private void UnhookRoutineSteps(ObservableCollection<CharacterRoutineStep> steps)
         {
-            if (entries is null) return;
+            if (steps is null) return;
 
-            entries.CollectionChanged -= RoutineEntries_CollectionChanged;
-            foreach (var entry in entries)
+            steps.CollectionChanged -= RoutineSteps_CollectionChanged;
+            foreach (var step in steps)
             {
-                UnhookEntry(entry);
+                UnhookStep(step);
             }
         }
 
-        private void RoutineEntries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void RoutineSteps_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems is not null)
             {
-                foreach (CharacterRoutineEntry entry in e.OldItems)
+                foreach (CharacterRoutineStep step in e.OldItems)
                 {
-                    UnhookEntry(entry);
+                    UnhookStep(step);
                 }
             }
 
             if (e.NewItems is not null)
             {
-                foreach (CharacterRoutineEntry entry in e.NewItems)
+                foreach (CharacterRoutineStep step in e.NewItems)
                 {
-                    HookEntry(entry);
+                    HookStep(step);
                 }
             }
 
-            OnPropertyChanged(nameof(RoutineEntries));
+            OnPropertyChanged(nameof(RoutineSteps));
         }
 
-        private void HookEntry(CharacterRoutineEntry entry)
+        private void HookStep(CharacterRoutineStep step)
         {
-            if (entry is null) return;
-            entry.PropertyChanged += Entry_PropertyChanged;
+            if (step is null) return;
+            step.PropertyChanged += Step_PropertyChanged;
         }
 
-        private void UnhookEntry(CharacterRoutineEntry entry)
+        private void UnhookStep(CharacterRoutineStep step)
         {
-            if (entry is null) return;
-            entry.PropertyChanged -= Entry_PropertyChanged;
+            if (step is null) return;
+            step.PropertyChanged -= Step_PropertyChanged;
         }
 
-        private void Entry_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Step_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(RoutineEntries));
+            OnPropertyChanged(nameof(RoutineSteps));
         }
 
         private bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)

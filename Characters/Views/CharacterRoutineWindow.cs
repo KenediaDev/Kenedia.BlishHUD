@@ -57,9 +57,9 @@ namespace Kenedia.Modules.Characters.Views
 
         public CharacterRoutineService Service => _service;
 
-        public void SwitchToNextRoutineCharacter()
+        public void SwitchToNextRoutineStep()
         {
-            _service.SwitchToNextIncompleteRoutineEntry();
+            _service.SwitchToNextIncompleteRoutineStep();
         }
 
         public override void UpdateContainer(GameTime gameTime)

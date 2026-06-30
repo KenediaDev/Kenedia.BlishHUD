@@ -1056,7 +1056,7 @@ Ruta a 'tesseract.dll': {0}</value>
     <value>Tecla para abrir o cerrar la ventana de la rutina de personajes</value>
   </data>
   <data name="NextCharacterRoutineEntryKey" xml:space="preserve">
-    <value>Siguiente entrada de rutina</value>
+    <value>Siguiente paso</value>
   </data>
   <data name="NextCharacterRoutineEntryKey_Tooltip" xml:space="preserve">
     <value>Tecla para pasar al siguiente personaje incompleto de la rutina de personajes activa</value>
@@ -1086,16 +1086,16 @@ Ruta a 'tesseract.dll': {0}</value>
     <value>Semanal (lun 07:30 UTC)</value>
   </data>
   <data name="RoutineEntryDescriptionPlaceholder" xml:space="preserve">
-    <value>Descripci?n de la entrada de rutina (opcional)</value>
+    <value>Descripci?n del paso (opcional)</value>
   </data>
   <data name="AddRoutineEntry" xml:space="preserve">
-    <value>A?adir entrada de rutina</value>
+    <value>A?adir paso</value>
   </data>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copiar nombre de personaje</value>
   </data>
   <data name="RoutineEntries" xml:space="preserve">
-    <value>Entradas de rutina</value>
+    <value>Pasos</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Siguiente</value>
@@ -1104,7 +1104,7 @@ Ruta a 'tesseract.dll': {0}</value>
     <value>Acabado</value>
   </data>
   <data name="CompletedRoutineEntriesHiddenTooltip" xml:space="preserve">
-    <value>Las entradas de rutina completadas se ocultan seg?n su configuraci?n.</value>
+    <value>Los pasos completados se ocultan seg?n su configuraci?n.</value>
   </data>
   <data name="UncheckAll" xml:space="preserve">
     <value>Desmarcar todo</value>
@@ -1116,10 +1116,10 @@ Ruta a 'tesseract.dll': {0}</value>
     <value>Completa la rutina de personajes.</value>
   </data>
   <data name="SwitchToFirstIncomplete" xml:space="preserve">
-    <value>Pasar a la primera entrada de rutina incompleta.</value>
+    <value>Pasar al primer paso incompleto.</value>
   </data>
   <data name="AllRoutineEntriesComplete" xml:space="preserve">
-    <value>Todas las entradas de esta rutina de personajes est?n completas.</value>
+    <value>Todos los pasos de esta rutina de personajes est?n completos.</value>
   </data>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>El siguiente clic marca '{0}' completo.</value>
@@ -1131,7 +1131,7 @@ Ruta a 'tesseract.dll': {0}</value>
     <value>Reintentar</value>
   </data>
   <data name="RoutineEntryCharacterNotFound" xml:space="preserve">
-    <value>No se encontr? el personaje '{0}'. Edita esta entrada de rutina para continuar.</value>
+    <value>No se encontr? el personaje '{0}'. Edita este paso para continuar.</value>
   </data>
   <data name="RoutineEntryCharacterNotAssigned" xml:space="preserve">
     <value>No hay ningún personaje asignado. Asigna uno para continuar.</value>
@@ -1146,28 +1146,28 @@ Ruta a 'tesseract.dll': {0}</value>
     <value>Editar entrada</value>
   </data>
   <data name="RemoveRoutineEntry" xml:space="preserve">
-    <value>Eliminar entrada</value>
+    <value>Eliminar paso</value>
   </data>
   <data name="DeleteConfirmationTitle" xml:space="preserve">
     <value>Confirmar eliminación</value>
   </data>
   <data name="ConfirmCharacterRoutineEntryDelete" xml:space="preserve">
-    <value>?Eliminar la entrada de rutina '{0}'? Esta acci?n no se puede deshacer.</value>
+    <value>?Eliminar el paso '{0}'? Esta acci?n no se puede deshacer.</value>
   </data>
   <data name="ConfirmCharacterRoutineDelete" xml:space="preserve">
-    <value>?Eliminar la rutina de personajes '{0}' y todas sus entradas? Esta acci?n no se puede deshacer.</value>
+    <value>?Eliminar la rutina de personajes '{0}' y todos sus pasos? Esta acci?n no se puede deshacer.</value>
   </data>
   <data name="CharacterRoutineDefaultName" xml:space="preserve">
     <value>Rutina de personajes {0}</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior" xml:space="preserve">
-    <value>Comportamiento de entradas completadas</value>
+    <value>Comportamiento de pasos completados</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior_Nothing" xml:space="preserve">
     <value>Nada</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior_Hide" xml:space="preserve">
-    <value>Ocultar entradas completadas</value>
+    <value>Ocultar pasos completados</value>
   </data>
   <data name="CompletedRoutineEntriesBehavior_MoveToBottom" xml:space="preserve">
     <value>Mover completado a la parte inferior</value>
