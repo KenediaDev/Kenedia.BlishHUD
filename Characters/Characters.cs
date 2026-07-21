@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -62,6 +63,7 @@ namespace Kenedia.Modules.Characters
         private bool _saveCharacters;
         private bool _loadedCharacters;
         private bool _mapsUpdated;
+        private readonly ConcurrentQueue<(string CharacterName, int? FreeInventorySlots)> _pendingInventorySlotUpdates = new();
 
         private SemVer.Version _version;
 
@@ -165,7 +167,7 @@ namespace Kenedia.Modules.Characters
             Data = serviceProvider.GetRequiredService<Data>();
             OCR = serviceProvider.GetRequiredService<OCR>();
 
-            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => ApiSpinner, Paths, Data, () => _notificationBadge);
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, UpdateCharacterInventorySlots, () => ApiSpinner, Paths, Data, () => _notificationBadge);
             GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
             Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
         }
@@ -295,6 +297,8 @@ namespace Kenedia.Modules.Characters
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            ApplyPendingInventorySlotUpdates();
 
             _ticks.Global += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.APIUpdate += gameTime.ElapsedGameTime.TotalSeconds;
@@ -481,7 +485,7 @@ namespace Kenedia.Modules.Characters
             MainWindow.TaskListWindow = TaskListWindow;
 
             SideMenuToggles _toggles;
-            MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
+            MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), () => CharacterModels.Any(c => c.HasFullInventory), Tags, Data)
             {
                 Width = MainWindow.SideMenu.Width,
                 Icon = AsyncTexture2D.FromAssetId(440021),
@@ -755,6 +759,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SearchFilters.AddOrUpdate("Birthday", new((c) => c.HasBirthdayPresent));
+            SearchFilters.AddOrUpdate("FullInventory", new((c) => c.HasFullInventory));
             SearchFilters.AddOrUpdate("Hidden", new((c) => !c.Show || (!Data.StaticInfo.IsBeta && c.Beta)));
             SearchFilters.AddOrUpdate("Female", new((c) => c.Gender == Gender.Female));
             SearchFilters.AddOrUpdate("Male", new((c) => c.Gender == Gender.Male));
@@ -811,7 +816,7 @@ namespace Kenedia.Modules.Characters
                     if (!oldList.Contains(new { c.Name, c.Created }) || character is null)
                     {
                         Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create them!");
-                        CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
+                        CharacterModels.Add(character = new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
                     }
                     else
                     {
@@ -839,6 +844,33 @@ namespace Kenedia.Modules.Characters
                 MainWindow?.PerformFiltering();
 
                 _ = SaveCharacterList();
+            }
+        }
+
+        private void UpdateCharacterInventorySlots(string characterName, int? freeInventorySlots)
+        {
+            _pendingInventorySlotUpdates.Enqueue((characterName, freeInventorySlots));
+        }
+
+        private void ApplyPendingInventorySlotUpdates()
+        {
+            bool updated = false;
+            while (_pendingInventorySlotUpdates.TryDequeue(out var update))
+            {
+                Character_Model character = CharacterModels.FirstOrDefault(c => string.Equals(c.Name, update.CharacterName, StringComparison.OrdinalIgnoreCase));
+                if (character is null)
+                {
+                    continue;
+                }
+
+                character.FreeInventorySlots = update.FreeInventorySlots;
+                updated = true;
+            }
+
+            if (updated)
+            {
+                MainWindow?.SideMenu?.TogglesTab?.UpdateComputedTags();
+                MainWindow?.PerformFiltering();
             }
         }
 

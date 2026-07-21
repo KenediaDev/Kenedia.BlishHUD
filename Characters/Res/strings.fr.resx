@@ -1094,6 +1094,12 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copier le nom du personnage</value>
   </data>
+  <data name="CopyTaskList" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="CopyTaskListTooltip" xml:space="preserve">
+    <value>Copier cette liste de tâches</value>
+  </data>
   <data name="Tasks" xml:space="preserve">
     <value>Tâches</value>
   </data>
@@ -1157,6 +1163,9 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="ConfirmTaskListDelete" xml:space="preserve">
     <value>Supprimer la liste de tâches « {0} » et toutes ses tâches ? Cette action est irréversible.</value>
   </data>
+  <data name="TaskListCopyName" xml:space="preserve">
+    <value>Copie de {0}</value>
+  </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Liste des tâches {0}</value>
   </data>
@@ -1174,6 +1183,15 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   </data>
   <data name="TaskLists" xml:space="preserve">
     <value>Listes de tâches</value>
+  </data>
+  <data name="FreeInventorySlots" xml:space="preserve">
+    <value>Emplacements d'inventaire libres</value>
+  </data>
+  <data name="FreeInventorySlotsAmount" xml:space="preserve">
+    <value>{0} emplacements d'inventaire libres</value>
+  </data>
+  <data name="FullInventory" xml:space="preserve">
+    <value>Inventaire plein</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Menu latéral</value>

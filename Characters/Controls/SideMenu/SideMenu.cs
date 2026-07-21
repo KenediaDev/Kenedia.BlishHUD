@@ -200,8 +200,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             if (BackgroundImage is not null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
 
-            int gap = (_headerPanel.Width - 7 - (_buttons.Count * 20)) / (_buttons.Count - 1);
-            for (int i = 0; i < _buttons.Count; i++)
+            int buttonCount = _buttons.Count;
+            if (buttonCount == 0) return;
+
+            int gap = buttonCount > 1
+                ? (_headerPanel.Width - 7 - (buttonCount * 20)) / (buttonCount - 1)
+                : 0;
+
+            for (int i = 0; i < buttonCount; i++)
             {
                 Control b = _buttons[i];
                 b.Location = new(6 + (i * gap) + (i * b.Width), 3);

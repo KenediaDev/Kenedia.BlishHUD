@@ -690,6 +690,24 @@ namespace Kenedia.Modules.Characters.Res {
                 return ResourceManager.GetString("CopyCharacterName", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string CopyTaskList {
+            get {
+                return ResourceManager.GetString("CopyTaskList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy this task list.
+        /// </summary>
+        internal static string CopyTaskListTooltip {
+            get {
+                return ResourceManager.GetString("CopyTaskListTooltip", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Core {0}.
@@ -859,6 +877,15 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string ConfirmTaskListDelete {
             get {
                 return ResourceManager.GetString("ConfirmTaskListDelete", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Copy.
+        /// </summary>
+        internal static string TaskListCopyName {
+            get {
+                return ResourceManager.GetString("TaskListCopyName", resourceCulture);
             }
         }
 
@@ -2869,6 +2896,33 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string TaskDescriptionPlaceholder {
             get {
                 return ResourceManager.GetString("TaskDescriptionPlaceholder", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Free Inventory Slots.
+        /// </summary>
+        internal static string FreeInventorySlots {
+            get {
+                return ResourceManager.GetString("FreeInventorySlots", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} free inventory slots.
+        /// </summary>
+        internal static string FreeInventorySlotsAmount {
+            get {
+                return ResourceManager.GetString("FreeInventorySlotsAmount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Full Inventory.
+        /// </summary>
+        internal static string FullInventory {
+            get {
+                return ResourceManager.GetString("FullInventory", resourceCulture);
             }
         }
         

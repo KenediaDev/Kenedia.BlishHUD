@@ -87,6 +87,22 @@ namespace Kenedia.Modules.Characters.Models
             Entries.Add(new TaskEntry(characterName, description, nextOrder));
         }
 
+        public TaskListModel Copy(string name)
+        {
+            var copy = new TaskListModel(name)
+            {
+                ResetFrequency = ResetFrequency,
+                LastReset = null,
+            };
+
+            foreach (var entry in Entries.OrderBy(e => e.Order))
+            {
+                copy.Entries.Add(entry.Copy(copy.Entries.Count));
+            }
+
+            return copy;
+        }
+
         public void RemoveEntry(TaskEntry entry)
         {
             Entries.Remove(entry);

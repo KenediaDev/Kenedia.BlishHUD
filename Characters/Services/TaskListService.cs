@@ -83,6 +83,17 @@ namespace Kenedia.Modules.Characters.Services
             SelectList(newList);
         }
 
+        public void CopySelectedList()
+        {
+            if (SelectedList is null) return;
+
+            var copy = SelectedList.Copy(GetCopyName(SelectedList.Name));
+            TaskLists.Add(copy);
+            _requestSave?.Invoke();
+
+            SelectList(copy);
+        }
+
         public void DeleteSelectedList()
         {
             if (SelectedList is null) return;
@@ -330,6 +341,20 @@ namespace Kenedia.Modules.Characters.Services
         private TaskListModel FindListByEntry(TaskEntry entry)
         {
             return entry is null ? null : TaskLists.FirstOrDefault(list => list.Entries.Contains(entry));
+        }
+
+        private string GetCopyName(string name)
+        {
+            string baseName = string.Format(strings.TaskListCopyName, string.IsNullOrWhiteSpace(name) ? strings.TaskLists : name);
+            string copyName = baseName;
+            int copyIndex = 2;
+
+            while (TaskLists.Any(list => string.Equals(list.Name, copyName, StringComparison.OrdinalIgnoreCase)))
+            {
+                copyName = $"{baseName} {copyIndex++}";
+            }
+
+            return copyName;
         }
 
         private void CharacterSwapping_Succeeded(object sender, EventArgs e)

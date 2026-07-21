@@ -1096,6 +1096,12 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Zeichenname kopieren</value>
   </data>
+  <data name="CopyTaskList" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="CopyTaskListTooltip" xml:space="preserve">
+    <value>Diese Aufgabenliste kopieren</value>
+  </data>
   <data name="Tasks" xml:space="preserve">
     <value>Aufgaben</value>
   </data>
@@ -1159,6 +1165,9 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="ConfirmTaskListDelete" xml:space="preserve">
     <value>Aufgabenliste '{0}' und alle enthaltenen Aufgaben löschen? Dies kann nicht rückgängig gemacht werden.</value>
   </data>
+  <data name="TaskListCopyName" xml:space="preserve">
+    <value>{0} Kopie</value>
+  </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Aufgabenliste {0}</value>
   </data>
@@ -1176,6 +1185,15 @@ Pfad zur 'tesseract.dll': {0}</value>
   </data>
   <data name="TaskLists" xml:space="preserve">
     <value>Aufgabenlisten</value>
+  </data>
+  <data name="FreeInventorySlots" xml:space="preserve">
+    <value>Freie Inventarplätze</value>
+  </data>
+  <data name="FreeInventorySlotsAmount" xml:space="preserve">
+    <value>{0} freie Inventarplätze</value>
+  </data>
+  <data name="FullInventory" xml:space="preserve">
+    <value>Volles Inventar</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Seitenmenü</value>

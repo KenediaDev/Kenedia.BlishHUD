@@ -404,7 +404,7 @@ namespace Kenedia.Modules.Characters.Views
 
                 if (_settings.DisplayToggles.Value["Tags"].Check)
                 {
-                    stringFilters.Add(new("Tags", new((c) => { foreach (string tag in c.Tags) { if (SearchableString(tag).Contains(string_text)) return true; } return false; }, true)));
+                    stringFilters.Add(new("Tags", new((c) => { foreach (string tag in c.DisplayTags) { if (SearchableString(tag).Contains(string_text)) return true; } return false; }, true)));
                 }
             }
 

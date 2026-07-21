@@ -51,6 +51,7 @@ namespace Kenedia.Modules.Characters.Models
         private bool _showOnRadial = false;
         private bool _hadBirthday;
         private bool _beta;
+        private int? _freeInventorySlots;
 
         public Character_Model()
         {
@@ -117,6 +118,7 @@ namespace Kenedia.Modules.Characters.Models
             _gender = character.Gender;
             _showOnRadial = character.ShowOnRadial;
             _hadBirthday = character.HadBirthday;
+            _freeInventorySlots = character.FreeInventorySlots;
 
             _initialized = true;
         }
@@ -305,6 +307,33 @@ namespace Kenedia.Modules.Characters.Models
 
         [DataMember]
         public TagList Tags { get; private set; } = [];
+
+        public IEnumerable<string> DisplayTags
+        {
+            get
+            {
+                foreach (string tag in Tags)
+                {
+                    yield return tag;
+                }
+
+                if (HasFullInventory)
+                {
+                    yield return strings.FullInventory;
+                }
+            }
+        }
+
+        [DataMember]
+        public int? FreeInventorySlots
+        {
+            get => _freeInventorySlots;
+            set => SetProperty(ref _freeInventorySlots, value);
+        }
+
+        public bool HasInventoryData => FreeInventorySlots.HasValue;
+
+        public bool HasFullInventory => FreeInventorySlots == 0;
 
         [DataMember]
         public int Position
@@ -607,6 +636,7 @@ namespace Kenedia.Modules.Characters.Models
             _index = storedCharacter.Index;
             _showOnRadial = storedCharacter.ShowOnRadial;
             _hadBirthday = storedCharacter.HadBirthday;
+            _freeInventorySlots = storedCharacter.FreeInventorySlots;
 
             Tags.Clear();
             Tags.AddTags(storedCharacter.Tags, false);

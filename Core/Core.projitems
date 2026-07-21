@@ -178,7 +178,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\textures_common.resx">
       <LastGenOutput>textures_common.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -204,6 +204,12 @@
     <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Cancel.png" />
     <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Cancel_Active.png" />
     <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Cancel_Hovered.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Copy.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Copy_Active.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Copy_Hovered.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Delete.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Delete_Active.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Delete_Hovered.png" />
     <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Save.png" />
     <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Save_Active.png" />
     <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Save_Hovered.png" />

@@ -1097,6 +1097,12 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copy Character Name</value>
   </data>
+  <data name="CopyTaskList" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CopyTaskListTooltip" xml:space="preserve">
+    <value>Copy this task list</value>
+  </data>
   <data name="Tasks" xml:space="preserve">
     <value>Tasks</value>
   </data>
@@ -1160,6 +1166,9 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="ConfirmTaskListDelete" xml:space="preserve">
     <value>Delete task list '{0}' and all of its tasks? This cannot be undone.</value>
   </data>
+  <data name="TaskListCopyName" xml:space="preserve">
+    <value>{0} Copy</value>
+  </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Task List {0}</value>
   </data>
@@ -1177,6 +1186,15 @@ Path to the 'tesseract.dll': {0}</value>
   </data>
   <data name="TaskLists" xml:space="preserve">
     <value>Task Lists</value>
+  </data>
+  <data name="FreeInventorySlots" xml:space="preserve">
+    <value>Free Inventory Slots</value>
+  </data>
+  <data name="FreeInventorySlotsAmount" xml:space="preserve">
+    <value>{0} free inventory slots</value>
+  </data>
+  <data name="FullInventory" xml:space="preserve">
+    <value>Full Inventory</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Side Menu</value>

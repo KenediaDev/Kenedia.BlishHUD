@@ -108,30 +108,25 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Textures\Cancel.png" />
+    <None Include="Textures\Cancel_Active.png" />
+    <None Include="Textures\Cancel_Hovered.png" />
+    <None Include="Textures\Copy.png" />
+    <None Include="Textures\Copy_Active.png" />
+    <None Include="Textures\Copy_Hovered.png" />
+    <None Include="Textures\Delete.png" />
+    <None Include="Textures\Delete_Active.png" />
+    <None Include="Textures\Delete_Hovered.png" />
     <None Include="Textures\RollingChoya.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Textures\Save.png" />
+    <None Include="Textures\Save_Active.png" />
+    <None Include="Textures\Save_Hovered.png" />
     <None Include="Textures\ImageButtonBackground.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Textures\ImageButtonBackground_Hovered.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Textures\Tag.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Textures\Tag_Hovered.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Textures\ToggleAreaLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Textures\ToggleAreaMid.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Textures\ToggleAreaRight.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

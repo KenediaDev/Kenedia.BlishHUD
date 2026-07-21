@@ -53,6 +53,14 @@ namespace Kenedia.Modules.Characters.Models
             Order = order;
         }
 
+        public TaskEntry Copy(int order)
+        {
+            return new TaskEntry(CharacterName, Description, order)
+            {
+                Completed = false,
+            };
+        }
+
         private bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(field, value)) return false;

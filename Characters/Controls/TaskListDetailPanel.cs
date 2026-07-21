@@ -1,10 +1,13 @@
 using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -78,7 +81,8 @@ namespace Kenedia.Modules.Characters.Controls
         private TaskListModel _boundList;
         private bool _syncingListMetadata;
         private bool _syncingCharacterControls;
-        private ImageButton _deleteButton;
+        private ButtonImage _copyButton;
+        private ButtonImage _deleteButton;
         private Character_Model _selectedCharacter;
         private bool _pendingInitialLayout = true;
 
@@ -147,14 +151,27 @@ namespace Kenedia.Modules.Characters.Controls
                 _service.UpdateSelectedListName(_nameBox.Text);
             };
 
-            _deleteButton = new ImageButton()
+            _copyButton = new()
+            {
+                Parent = namePanel,
+                Texture = TexturesService.GetTextureFromRef(textures_common.Copy, nameof(textures_common.Copy)),
+                HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Copy_Hovered, nameof(textures_common.Copy_Hovered)),
+                ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Copy_Active, nameof(textures_common.Copy_Active)),
+                Width = 30,
+                Height = 30,
+                SetLocalizedTooltip = () => strings.CopyTaskListTooltip,
+                ClickAction = (b) => _service.CopySelectedList(),
+            };
+
+            _deleteButton = new()
             {
                 Parent = namePanel,
                 BasicTooltipText = strings.DeleteList,
                 Width = 30,
                 Height = 30,
-                Texture = _textureManager.GetControlTexture(ControlTextures.Delete_Button),
-                HoveredTexture = _textureManager.GetControlTexture(ControlTextures.Delete_Button_Hovered),
+                Texture = TexturesService.GetTextureFromRef(textures_common.Delete, nameof(textures_common.Delete)),
+                HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Delete_Hovered, nameof(textures_common.Delete_Hovered)),
+                ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Delete_Active, nameof(textures_common.Delete_Active)),
                 ClickAction = (b) => ConfirmDeleteSelectedList(),
             };
 
@@ -251,8 +268,14 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnResized(e);
 
+            if (_deleteButton is null || _copyButton is null || _nameBox is null || _resetDropdown is null)
+            {
+                return;
+            }
+
             _deleteButton?.SetLocation(Width - 10 - _deleteButton.Width, Top);
-            _nameBox?.SetSize(Math.Max(100, _deleteButton.Left - _nameBox.Left - 5), _nameBox.Height);
+            _copyButton?.SetLocation(_deleteButton.Left - _copyButton.Width - 5, Top);
+            _nameBox?.SetSize(Math.Max(100, _copyButton.Left - _nameBox.Left - 5), _nameBox.Height);
             _resetDropdown?.SetSize(Math.Max(100, _deleteButton.Right - _nameBox.Left), _resetDropdown.Height);
         }
 

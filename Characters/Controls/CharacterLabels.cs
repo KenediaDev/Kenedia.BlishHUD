@@ -33,6 +33,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _lastLoginLabel;
         private readonly IconLabel _nextBirthdayLabel;
         private readonly IconLabel _ageLabel;
+        private readonly IconLabel _freeInventorySlotsLabel;
         private readonly IconLabel _customIndex;
         private readonly List<Tag> _tags = [];
         private readonly bool _created;
@@ -121,6 +122,15 @@ namespace Kenedia.Modules.Characters.Controls
                 TextureRectangle = new Rectangle(10, 10, 44, 44),
             };
 
+            _freeInventorySlotsLabel = new IconLabel()
+            {
+                Parent = parent,
+                AutoSizeWidth = true,
+                AutoSizeHeight = true,
+                Icon = AsyncTexture2D.FromAssetId(156670),
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
+            };
+
             _customIndex = new IconLabel()
             {
                 Parent = parent,
@@ -152,6 +162,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _nextBirthdayLabel,
                 _ageLabel,
                 _lastLoginLabel,
+                _freeInventorySlotsLabel,
                 _craftingControl,
                 TagPanel,
             ];
@@ -276,7 +287,7 @@ namespace Kenedia.Modules.Characters.Controls
             _customIndex.Text = string.Format(strings.CustomIndex + " {0}", Character.Index);
 
             var tagLlist = _tags.Select(e => e.Text);
-            var characterTags = Character.Tags.ToList();
+            var characterTags = Character.DisplayTags.ToList();
 
             var deleteTags = tagLlist.Except(characterTags);
             var addTags = characterTags.Except(tagLlist);
@@ -358,7 +369,11 @@ namespace Kenedia.Modules.Characters.Controls
             _customIndex.Visible = !settings.TryGetValue("CustomIndex", out var customindex) || (tooltip ? customindex.ShowTooltip : customindex.Show);
             _customIndex.Font = Font;
 
-            TagPanel.Visible = (!settings.TryGetValue("Tags", out var tags) || (tooltip ? tags.ShowTooltip : tags.Show)) && (Character?.Tags.Count ?? 0) > 0;
+            _freeInventorySlotsLabel.Visible = Character?.HasInventoryData == true
+                && (!settings.TryGetValue("FreeInventorySlots", out var freeInventorySlots) || (tooltip ? freeInventorySlots.ShowTooltip : freeInventorySlots.Show));
+            _freeInventorySlotsLabel.Font = Font;
+
+            TagPanel.Visible = (!settings.TryGetValue("Tags", out var tags) || (tooltip ? tags.ShowTooltip : tags.Show)) && (Character?.DisplayTags.Any() ?? false);
             TagPanel.Font = Font;
 
             _craftingControl.Height = Font.LineHeight + 2;
@@ -421,6 +436,11 @@ namespace Kenedia.Modules.Characters.Controls
             if (Character is not null && _ageLabel.Visible)
             {
                 _ageLabel.Text = string.Format("{1} ({0} {2})", Character.Age, Character.Created.Date.ToString("d"), strings.Years);
+            }
+
+            if (Character is not null && _freeInventorySlotsLabel.Visible)
+            {
+                _freeInventorySlotsLabel.Text = string.Format(strings.FreeInventorySlotsAmount, Character.FreeInventorySlots.GetValueOrDefault());
             }
 
             if (_created && Parent?.Visible == true)

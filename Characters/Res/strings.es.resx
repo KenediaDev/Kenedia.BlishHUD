@@ -1094,6 +1094,12 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copiar nombre de personaje</value>
   </data>
+  <data name="CopyTaskList" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="CopyTaskListTooltip" xml:space="preserve">
+    <value>Copiar esta lista de tareas</value>
+  </data>
   <data name="Tasks" xml:space="preserve">
     <value>Tareas</value>
   </data>
@@ -1157,6 +1163,9 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="ConfirmTaskListDelete" xml:space="preserve">
     <value>¿Eliminar la lista de tareas '{0}' y todas sus tareas? Esta acción no se puede deshacer.</value>
   </data>
+  <data name="TaskListCopyName" xml:space="preserve">
+    <value>Copia de {0}</value>
+  </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Lista de tareas {0}</value>
   </data>
@@ -1174,6 +1183,15 @@ Ruta a 'tesseract.dll': {0}</value>
   </data>
   <data name="TaskLists" xml:space="preserve">
     <value>Hojas de ruta</value>
+  </data>
+  <data name="FreeInventorySlots" xml:space="preserve">
+    <value>Espacios libres de inventario</value>
+  </data>
+  <data name="FreeInventorySlotsAmount" xml:space="preserve">
+    <value>{0} espacios libres de inventario</value>
+  </data>
+  <data name="FullInventory" xml:space="preserve">
+    <value>Inventario lleno</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Menú lateral</value>
