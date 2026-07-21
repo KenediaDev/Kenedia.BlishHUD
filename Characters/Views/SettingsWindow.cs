@@ -457,10 +457,10 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
-                KeyBinding = _settings.ToggleTaskListKey.Value,
+                KeyBinding = _settings.ToggleCharacterRoutineKey.Value,
                 KeybindChangedAction = (kb) =>
                 {
-                    _settings.ToggleTaskListKey.Value = new()
+                    _settings.ToggleCharacterRoutineKey.Value = new()
                     {
                         ModifierKeys = kb.ModifierKeys,
                         PrimaryKey = kb.PrimaryKey,
@@ -468,18 +468,18 @@ namespace Kenedia.Modules.Characters.Views
                         IgnoreWhenInTextField = true,
                     };
                 },
-                SetLocalizedKeyBindingName = () => strings.ToggleTaskListKey,
-                SetLocalizedTooltip = () => strings.ToggleTaskListKey_Tooltip,
+                SetLocalizedKeyBindingName = () => strings.ToggleCharacterRoutineKey,
+                SetLocalizedTooltip = () => strings.ToggleCharacterRoutineKey_Tooltip,
             };
 
             _ = new KeybindingAssigner()
             {
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
-                KeyBinding = _settings.NextTaskEntryKey.Value,
+                KeyBinding = _settings.NextCharacterRoutineStepKey.Value,
                 KeybindChangedAction = (kb) =>
                 {
-                    _settings.NextTaskEntryKey.Value = new()
+                    _settings.NextCharacterRoutineStepKey.Value = new()
                     {
                         ModifierKeys = kb.ModifierKeys,
                         PrimaryKey = kb.PrimaryKey,
@@ -487,8 +487,8 @@ namespace Kenedia.Modules.Characters.Views
                         IgnoreWhenInTextField = true,
                     };
                 },
-                SetLocalizedKeyBindingName = () => strings.NextTaskEntryKey,
-                SetLocalizedTooltip = () => strings.NextTaskEntryKey_Tooltip,
+                SetLocalizedKeyBindingName = () => strings.NextCharacterRoutineStepKey,
+                SetLocalizedTooltip = () => strings.NextCharacterRoutineStepKey_Tooltip,
             };
             #endregion Keybinds
         }
@@ -629,7 +629,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 30,
-                Text = strings.CompletedTasksBehavior,
+                Text = strings.CompletedRoutineStepsBehavior,
             };
 
             _ = new Dropdown()
@@ -640,15 +640,15 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     return
                     [
-                        strings.CompletedTasksBehavior_Nothing,
-                        strings.CompletedTasksBehavior_Hide,
-                        strings.CompletedTasksBehavior_MoveToBottom,
+                        strings.CompletedRoutineStepsBehavior_Nothing,
+                        strings.CompletedRoutineStepsBehavior_Hide,
+                        strings.CompletedRoutineStepsBehavior_MoveToBottom,
                     ];
                 },
-                SelectedItem = ToCompletedTasksBehaviorText(_settings.CompletedTasksBehavior.Value),
+                SelectedItem = ToCompletedRoutineStepsBehaviorText(_settings.CompletedRoutineStepsBehavior.Value),
                 ValueChangedAction = (selected) =>
                 {
-                    _settings.CompletedTasksBehavior.Value = ParseCompletedTasksBehavior(selected);
+                    _settings.CompletedRoutineStepsBehavior.Value = ParseCompletedRoutineStepsBehavior(selected);
                 },
             };
 
@@ -1135,21 +1135,21 @@ namespace Kenedia.Modules.Characters.Views
             }
         }
 
-        private static string ToCompletedTasksBehaviorText(Settings.CompletedTasksDisplayBehavior behavior)
+        private static string ToCompletedRoutineStepsBehaviorText(Settings.CompletedRoutineStepsDisplayBehavior behavior)
         {
             return behavior switch
             {
-                Settings.CompletedTasksDisplayBehavior.HideCompletedTasks => strings.CompletedTasksBehavior_Hide,
-                Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay => strings.CompletedTasksBehavior_MoveToBottom,
-                _ => strings.CompletedTasksBehavior_Nothing,
+                Settings.CompletedRoutineStepsDisplayBehavior.HideCompletedRoutineSteps => strings.CompletedRoutineStepsBehavior_Hide,
+                Settings.CompletedRoutineStepsDisplayBehavior.MoveCompletedRoutineStepsToBottomOfDisplay => strings.CompletedRoutineStepsBehavior_MoveToBottom,
+                _ => strings.CompletedRoutineStepsBehavior_Nothing,
             };
         }
 
-        private static Settings.CompletedTasksDisplayBehavior ParseCompletedTasksBehavior(string value)
+        private static Settings.CompletedRoutineStepsDisplayBehavior ParseCompletedRoutineStepsBehavior(string value)
         {
-            if (value == strings.CompletedTasksBehavior_Hide) return Settings.CompletedTasksDisplayBehavior.HideCompletedTasks;
-            if (value == strings.CompletedTasksBehavior_MoveToBottom) return Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay;
-            return Settings.CompletedTasksDisplayBehavior.Nothing;
+            if (value == strings.CompletedRoutineStepsBehavior_Hide) return Settings.CompletedRoutineStepsDisplayBehavior.HideCompletedRoutineSteps;
+            if (value == strings.CompletedRoutineStepsBehavior_MoveToBottom) return Settings.CompletedRoutineStepsDisplayBehavior.MoveCompletedRoutineStepsToBottomOfDisplay;
+            return Settings.CompletedRoutineStepsDisplayBehavior.Nothing;
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)

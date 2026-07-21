@@ -1,4 +1,4 @@
-﻿using Blish_HUD.Modules.Managers;
+using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
@@ -71,7 +71,6 @@ namespace Kenedia.Modules.Characters.Services
                 var temp = field;
                 if (Common.SetProperty(field, value, v => field = v, AccountChanged))
                 {
-                    _paths.AccountName = value?.Name;
                     Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");
                 }
             }

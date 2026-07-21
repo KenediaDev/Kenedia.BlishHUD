@@ -62,10 +62,10 @@ namespace Kenedia.Modules.Characters.Controls
         }
     }
 
-    public class TaskListDetailPanel : FlowPanel
+    public class CharacterRoutineDetailPanel : FlowPanel
     {
         private readonly TextureManager _textureManager;
-        private readonly TaskListService _service;
+        private readonly CharacterRoutineService _service;
         private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
 
@@ -76,9 +76,9 @@ namespace Kenedia.Modules.Characters.Controls
         private Label _resetLabel;
         private readonly Dropdown _resetDropdown;
         private readonly AutoSuggestComboBox<Character_Model> _characterSuggestionBox;
-        private readonly TaskEntriesPanel _entriesPanel;
+        private readonly CharacterRoutineStepsPanel _stepsPanel;
 
-        private TaskListModel _boundList;
+        private CharacterRoutineModel _boundList;
         private bool _syncingListMetadata;
         private bool _syncingCharacterControls;
         private ButtonImage _copyButton;
@@ -88,7 +88,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         public CharacterSwapping CharacterSwapping { get; }
 
-        public TaskListDetailPanel(TextureManager textureManager, TaskListService service, CharacterSwapping characterSwapping, Settings settings, ObservableCollection<Character_Model> characterModels, int width)
+        public CharacterRoutineDetailPanel(TextureManager textureManager, CharacterRoutineService service, CharacterSwapping characterSwapping, Settings settings, ObservableCollection<Character_Model> characterModels, int width)
         {
             _textureManager = textureManager;
             _service = service;
@@ -105,7 +105,7 @@ namespace Kenedia.Modules.Characters.Controls
             _placeholderLabel = new Label()
             {
                 Parent = this,
-                Text = strings.TaskListPlaceholder,
+                Text = strings.CharacterRoutinePlaceholder,
                 Font = Content.DefaultFont16,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
@@ -148,7 +148,7 @@ namespace Kenedia.Modules.Characters.Controls
             _nameBox.TextChanged += (_, _) =>
             {
                 if (_syncingListMetadata) return;
-                _service.UpdateSelectedListName(_nameBox.Text);
+                _service.UpdateSelectedRoutineName(_nameBox.Text);
             };
 
             _copyButton = new()
@@ -159,8 +159,8 @@ namespace Kenedia.Modules.Characters.Controls
                 ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Copy_Active, nameof(textures_common.Copy_Active)),
                 Width = 30,
                 Height = 30,
-                SetLocalizedTooltip = () => strings.CopyTaskListTooltip,
-                ClickAction = (b) => _service.CopySelectedList(),
+                SetLocalizedTooltip = () => strings.CopyCharacterRoutineTooltip,
+                ClickAction = (b) => _service.CopySelectedRoutine(),
             };
 
             _deleteButton = new()
@@ -172,7 +172,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Texture = TexturesService.GetTextureFromRef(textures_common.Delete, nameof(textures_common.Delete)),
                 HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Delete_Hovered, nameof(textures_common.Delete_Hovered)),
                 ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Delete_Active, nameof(textures_common.Delete_Active)),
-                ClickAction = (b) => ConfirmDeleteSelectedList(),
+                ClickAction = (b) => ConfirmDeleteSelectedRoutine(),
             };
 
             var resetPanel = new FlowPanel()
@@ -214,34 +214,34 @@ namespace Kenedia.Modules.Characters.Controls
                     _ => ResetFrequency.None,
                 };
 
-                _service.UpdateSelectedListResetFrequency(frequency);
+                _service.UpdateSelectedRoutineResetFrequency(frequency);
             };
 
-            _entriesPanel = new TaskEntriesPanel(_service, settings, characterModels)
+            _stepsPanel = new CharacterRoutineStepsPanel(_service, settings, characterModels)
             {
                 Parent = _contentPanel,
             };
 
-            _service.State.SelectedList.Changed += SelectedList_Changed;
-            BindSelectedList(_service.SelectedList);
+            _service.State.SelectedRoutine.Changed += SelectedRoutine_Changed;
+            BindSelectedRoutine(_service.SelectedRoutine);
         }
 
-        private async void ConfirmDeleteSelectedList()
+        private async void ConfirmDeleteSelectedRoutine()
         {
-            TaskListModel list = _service.SelectedList;
+            CharacterRoutineModel list = _service.SelectedRoutine;
             if (list is null) return;
 
             var result = await new BaseDialog(
                 strings.DeleteConfirmationTitle,
-                string.Format(strings.ConfirmTaskListDelete, list.Name))
+                string.Format(strings.ConfirmCharacterRoutineDelete, list.Name))
             {
                 DesiredWidth = 380,
                 AutoSize = true,
             }.ShowDialog();
 
-            if (result == DialogResult.OK && ReferenceEquals(_service.SelectedList, list))
+            if (result == DialogResult.OK && ReferenceEquals(_service.SelectedRoutine, list))
             {
-                _service.DeleteSelectedList();
+                _service.DeleteSelectedRoutine();
             }
         }
 
@@ -253,13 +253,13 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _pendingInitialLayout = false;
                 RecalculateLayout();
-                _entriesPanel?.RecalculateLayout();
+                _stepsPanel?.RecalculateLayout();
             }
         }
 
         protected override void DisposeControl()
         {
-            _service.State.SelectedList.Changed -= SelectedList_Changed;
+            _service.State.SelectedRoutine.Changed -= SelectedRoutine_Changed;
 
             base.DisposeControl();
         }
@@ -279,7 +279,7 @@ namespace Kenedia.Modules.Characters.Controls
             _resetDropdown?.SetSize(Math.Max(100, _deleteButton.Right - _nameBox.Left), _resetDropdown.Height);
         }
 
-        private void BindSelectedList(TaskListModel list)
+        private void BindSelectedRoutine(CharacterRoutineModel list)
         {
             _boundList = list;
 
@@ -287,7 +287,7 @@ namespace Kenedia.Modules.Characters.Controls
             _placeholderLabel.Visible = !hasList;
             _contentPanel.Visible = hasList;
 
-            _entriesPanel.BindSelectedList(_boundList);
+            _stepsPanel.BindSelectedRoutine(_boundList);
             if (!hasList)
             {
                 return;
@@ -304,16 +304,16 @@ namespace Kenedia.Modules.Characters.Controls
             _syncingListMetadata = false;
         }
 
-        private bool IsBoundList(TaskListModel list)
+        private bool IsBoundList(CharacterRoutineModel list)
         {
             return _boundList is not null && ReferenceEquals(_boundList, list);
         }
 
-        private void SelectedList_Changed(object sender, StateVarChangedEventArgs<TaskListModel> e)
+        private void SelectedRoutine_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineModel> e)
         {
             if (!ReferenceEquals(e.OldValue, e.NewValue))
             {
-                BindSelectedList(e.NewValue);
+                BindSelectedRoutine(e.NewValue);
                 return;
             }
 

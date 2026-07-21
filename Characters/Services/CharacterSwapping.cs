@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Controls.Extern;
 using Blish_HUD.Gw2Mumble;
 using Kenedia.Modules.Characters.Res;
