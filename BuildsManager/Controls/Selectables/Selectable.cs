@@ -43,7 +43,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             switch (Data)
             {
                 case Legend legend:
-                    var legendIcon = TexturesService.GetAsyncTexture(legend.Swap.IconAssetId);
+                    var legendIcon = TexturesService.GetAsyncTexture(legend.Swap.IconAssetId) ?? ContentService.Textures.Error;
 
                     Type = SelectableType.Legend;
                     //TextureRegion = new(14, 14, 100, 100);
@@ -54,7 +54,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
                     break;
                 case Skill skill:
-                    var skillIcon = TexturesService.GetAsyncTexture(skill.IconAssetId);
+                    var skillIcon = TexturesService.GetAsyncTexture(skill.IconAssetId) ?? ContentService.Textures.Error;
 
                     Type = SelectableType.Skill;
                     //TextureRegion = new(14, 14, 100, 100);
