@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -42,6 +43,7 @@ using System.Threading;
 using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using Kenedia.Modules.Core.DataModels;
 using Characters.Views;
 
@@ -62,6 +64,7 @@ namespace Kenedia.Modules.Characters
         private bool _saveCharacters;
         private bool _loadedCharacters;
         private bool _mapsUpdated;
+        private readonly ConcurrentQueue<(string CharacterName, int? FreeInventorySlots)> _pendingInventorySlotUpdates = new();
 
         private SemVer.Version _version;
 
@@ -94,6 +97,12 @@ namespace Kenedia.Modules.Characters
         public TextureManager TextureManager { get; private set; }
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = [];
+
+        public ObservableCollection<CharacterRoutineModel> CharacterRoutineModels { get; } = [];
+
+        public CharacterRoutineService CharacterRoutineService { get; private set; }
+
+        public CharacterRoutineWindow CharacterRoutineWindow { get; private set; }
 
         private CancellationTokenSource _characterFileTokenSource;
 
@@ -132,6 +141,8 @@ namespace Kenedia.Modules.Characters
 
         public string CharactersPath => $@"{Paths.AccountPath}characters.json";
 
+        public string CharacterRoutinesPath => $@"{Paths.AccountPath}characterroutines.json";
+
         public string AccountImagesPath => $@"{Paths.AccountPath}images\";
 
         public GW2API_Handler GW2APIHandler { get; private set; }
@@ -157,7 +168,7 @@ namespace Kenedia.Modules.Characters
             Data = serviceProvider.GetRequiredService<Data>();
             OCR = serviceProvider.GetRequiredService<OCR>();
 
-            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => ApiSpinner, Paths, Data, () => _notificationBadge);
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, UpdateCharacterInventorySlots, () => ApiSpinner, Paths, Data, () => _notificationBadge);
             GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
             Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
         }
@@ -186,6 +197,7 @@ namespace Kenedia.Modules.Characters
             };
 
             GlobalAccountsPath = Paths.ModulePath + @"\accounts.json";
+            TextureManager = new TextureManager();
 
             Settings.LoadAccountSettings(Paths.AccountName);
             Settings.ShortcutKey.Value.Enabled = true;
@@ -193,6 +205,12 @@ namespace Kenedia.Modules.Characters
 
             Settings.RadialKey.Value.Enabled = true;
             Settings.RadialKey.Value.Activated += RadialMenuToggle;
+
+            Settings.ToggleCharacterRoutineKey.Value.Enabled = true;
+            Settings.ToggleCharacterRoutineKey.Value.Activated += ToggleCharacterRoutine;
+
+            Settings.NextCharacterRoutineStepKey.Value.Enabled = true;
+            Settings.NextCharacterRoutineStepKey.Value.Activated += NextCharacterRoutineStep;
 
             Tags.CollectionChanged += Tags_CollectionChanged;
 
@@ -232,10 +250,11 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
-            TextureManager = new TextureManager();
 
             Data.Loaded += Data_Loaded;
             await Data.Load();
+
+            Logger.Info($"Character routine startup: Data loaded. LoadCachedAccounts={Settings.LoadCachedAccounts.Value}, AccountName='{Paths.AccountName ?? "<null>"}', Player='{GameService.Gw2Mumble.PlayerCharacter?.Name ?? "<null>"}'.");
 
             if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();
             Data.BetaStateChanged += StaticInfo_BetaStateChanged;
@@ -267,14 +286,29 @@ namespace Kenedia.Modules.Characters
 
         private void GW2APIHandler_AccountChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Paths.AccountName) && Paths.AccountName != GW2APIHandler.Account?.Name)
+            string newAccountName = GW2APIHandler.Account?.Name;
+            Logger.Info($"Character routine account event: Property='{e?.PropertyName ?? "<null>"}', CurrentAccountName='{Paths.AccountName ?? "<null>"}', ApiAccountName='{newAccountName ?? "<null>"}'.");
+
+            if (!string.IsNullOrWhiteSpace(newAccountName) && !string.Equals(Paths.AccountName, newAccountName, StringComparison.Ordinal))
             {
-                Paths.AccountName = GW2APIHandler.Account?.Name;
+                Paths.AccountName = newAccountName;
+                Settings.LoadAccountSettings(Paths.AccountName);
                 Logger.Info("Account changed. Wipe all account bound data of this session.");
 
                 CharacterModels.Clear();
                 MainWindow?.CharacterCards.Clear();
                 MainWindow?.LoadedModels.Clear();
+                LoadCharacterRoutines("api-account-changed");
+            }
+            else if (!string.IsNullOrWhiteSpace(newAccountName))
+            {
+                Logger.Info("Character routine account event confirmed the current account. Reloading routines without clearing character data.");
+                Settings.LoadAccountSettings(Paths.AccountName);
+                LoadCharacterRoutines("api-account-confirmed");
+            }
+            else
+            {
+                Logger.Info($"Character routine account event skipped reload. HasNewAccount={!string.IsNullOrWhiteSpace(newAccountName)}, AccountChanged={!string.Equals(Paths.AccountName, newAccountName, StringComparison.Ordinal)}.");
             }
         }
 
@@ -282,11 +316,14 @@ namespace Kenedia.Modules.Characters
         {
             base.Update(gameTime);
 
+            ApplyPendingInventorySlotUpdates();
+
             _ticks.Global += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.APIUpdate += gameTime.ElapsedGameTime.TotalSeconds;
             _ticks.Save += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.Tags += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
+            _ticks.CharacterRoutineReset += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (_ticks.Global > 500)
             {
@@ -326,6 +363,13 @@ namespace Kenedia.Modules.Characters
                 _ = SaveCharacterList();
                 _saveCharacters = false;
             }
+
+            // Check character routine auto-resets every 30 seconds
+            if (_ticks.CharacterRoutineReset > 30000)
+            {
+                _ticks.CharacterRoutineReset = 0;
+                CheckCharacterRoutineResets();
+            }
         }
 
         protected override void Unload()
@@ -336,6 +380,8 @@ namespace Kenedia.Modules.Characters
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;
             Tags.CollectionChanged -= Tags_CollectionChanged;
             CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+            CharacterRoutineService?.Dispose();
+            CharacterRoutineService = null;
             OCR.Dispose();
             Data?.Dispose();
 
@@ -360,6 +406,7 @@ namespace Kenedia.Modules.Characters
                 Size = new((int)(GameService.Graphics.SpriteScreen.Width * 0.6F), (int)(GameService.Graphics.SpriteScreen.Height * 0.6F))
             };
 
+            TextureManager ??= new TextureManager();
             PotraitCapture = new PotraitCapture(CoreServices.ClientWindowService, CoreServices.SharedSettings, TextureManager)
             {
                 Parent = GameService.Graphics.SpriteScreen,
@@ -423,8 +470,40 @@ namespace Kenedia.Modules.Characters
                 Version = ModuleVersion,
             };
 
+            var characterRoutineBg = AsyncTexture2D.FromAssetId(155985);
+            Texture2D cutCharacterRoutineBg = characterRoutineBg.Texture.GetRegion(0, 0, characterRoutineBg.Width - 482, characterRoutineBg.Height - 390);
+
+            CharacterRoutineService = new CharacterRoutineService(CharacterSwapping, CharacterModels, CharacterRoutineModels, SaveCharacterRoutines);
+            LoadCharacterRoutines("gui-created");
+
+            CharacterRoutineWindow = new CharacterRoutineWindow(
+                bg,
+                new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
+                new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
+                Settings,
+                CharacterRoutineService,
+                TextureManager,
+                CharacterSwapping,
+                CharacterModels)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                Id = $"{Name} CharacterRoutineWindow",
+                Name = strings.CharacterRoutines,
+                CanResize = true,
+                Size = Settings.CharacterRoutineWindowSize.Value,
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
+                SubWindowEmblem = TextureManager.GetEmblem(Emblems.CharacterRoutine_8),
+                Version = ModuleVersion,
+                SavesSize = true,
+                SavesPosition = true,
+            };
+
+            MainWindow.CharacterRoutineWindow = CharacterRoutineWindow;
+
             SideMenuToggles _toggles;
-            MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
+            MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), () => CharacterModels.Any(c => c.HasFullInventory), Tags, Data)
             {
                 Width = MainWindow.SideMenu.Width,
                 Icon = AsyncTexture2D.FromAssetId(440021),
@@ -467,6 +546,7 @@ namespace Kenedia.Modules.Characters
             RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
+            CharacterRoutineWindow?.Dispose();
             PotraitCapture?.Dispose();
             RunIndicator?.Dispose();
         }
@@ -507,6 +587,25 @@ namespace Kenedia.Modules.Characters
             }
         }
 
+        private void ToggleCharacterRoutine(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+                CharacterRoutineWindow?.ToggleWindow();
+            }
+        }
+
+        private async void NextCharacterRoutineStep(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+              if (await ExtendedInputService.WaitForNoKeyPressed())
+              {
+                CharacterRoutineWindow?.SwitchToNextRoutineStep();
+              }
+            }
+        }
+
         private void CurrentCharacterModel_Updated(object sender, EventArgs e)
         {
             MainWindow?.SortCharacters();
@@ -533,8 +632,8 @@ namespace Kenedia.Modules.Characters
         {
             MouseState mouse = GameService.Input.Mouse.State;
 
-            if (CharacterSwapping.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
-            if (CharacterSorting.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
+            if (CharacterSwapping.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", [.. GameService.Input.Keyboard.KeysDown.Select(k => k.ToString())])}");
+            if (CharacterSorting.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", [.. GameService.Input.Keyboard.KeysDown.Select(k => k.ToString())])}");
         }
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
@@ -546,6 +645,9 @@ namespace Kenedia.Modules.Characters
             //GameService.Graphics.SpriteScreen.Visible = true;
             //MainWindow?.ToggleWindow();
             //SettingsWindow?.ToggleWindow();
+
+            CharacterRoutineWindow?.Show();
+            MainWindow?.Show();
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)
@@ -675,6 +777,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SearchFilters.AddOrUpdate("Birthday", new((c) => c.HasBirthdayPresent));
+            SearchFilters.AddOrUpdate("FullInventory", new((c) => c.HasFullInventory));
             SearchFilters.AddOrUpdate("Hidden", new((c) => !c.Show || (!Data.StaticInfo.IsBeta && c.Beta)));
             SearchFilters.AddOrUpdate("Female", new((c) => c.Gender == Gender.Female));
             SearchFilters.AddOrUpdate("Male", new((c) => c.Gender == Gender.Male));
@@ -731,15 +834,12 @@ namespace Kenedia.Modules.Characters
                     if (!oldList.Contains(new { c.Name, c.Created }) || character is null)
                     {
                         Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create them!");
-                        CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
+                        CharacterModels.Add(character = new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
                     }
                     else
                     {
                         character?.UpdateCharacter(c);
-                        if (character is not null)
-                        {
-                            character.Position = pos;
-                        }
+                        character?.Position = pos;
                     }
 
                     pos++;
@@ -765,9 +865,37 @@ namespace Kenedia.Modules.Characters
             }
         }
 
+        private void UpdateCharacterInventorySlots(string characterName, int? freeInventorySlots)
+        {
+            _pendingInventorySlotUpdates.Enqueue((characterName, freeInventorySlots));
+        }
+
+        private void ApplyPendingInventorySlotUpdates()
+        {
+            bool updated = false;
+            while (_pendingInventorySlotUpdates.TryDequeue(out var update))
+            {
+                Character_Model character = CharacterModels.FirstOrDefault(c => string.Equals(c.Name, update.CharacterName, StringComparison.OrdinalIgnoreCase));
+                if (character is null)
+                {
+                    continue;
+                }
+
+                character.FreeInventorySlots = update.FreeInventorySlots;
+                updated = true;
+            }
+
+            if (updated)
+            {
+                MainWindow?.SideMenu?.TogglesTab?.UpdateComputedTags();
+                MainWindow?.PerformFiltering();
+            }
+        }
+
         private async Task<bool?> LoadCharacters()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            Logger.Info($"Cached character load requested. Player='{player?.Name ?? "<null>"}', CurrentAccountName='{Paths.AccountName ?? "<null>"}', GlobalAccountsPath='{GlobalAccountsPath}', GlobalAccountsExists={File.Exists(GlobalAccountsPath)}.");
 
             if ((player == null || string.IsNullOrEmpty(player.Name)) && string.IsNullOrEmpty(Paths.AccountName))
             {
@@ -782,25 +910,39 @@ namespace Kenedia.Modules.Characters
                     string path = GlobalAccountsPath;
                     if (File.Exists(path))
                     {
+                        FileInfo fileInfo = new(path);
+                        Logger.Info($"Cached account lookup reading '{path}'. Length={fileInfo.Length}, LastWriteUtc={fileInfo.LastWriteTimeUtc:O}.");
                         string content = File.ReadAllText(path);
                         List<AccountSummary> accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content, SerializerSettings.Default);
-                        return accounts.Find(e => e.CharacterNames.Contains(player.Name));
+                        Logger.Info($"Cached account lookup parsed {accounts?.Count ?? -1} account entrie(s). Player='{player?.Name ?? "<null>"}'.");
+
+                        AccountSummary matchedAccount = accounts?.Find(e => player is not null && e.CharacterNames.Contains(player.Name));
+                        Logger.Info($"Cached account lookup result: MatchedAccount='{matchedAccount?.AccountName ?? "<none>"}'.");
+
+                        return matchedAccount;
                     }
+
+                    Logger.Info($"Cached account lookup skipped because '{path}' does not exist.");
                 }
-                catch (Exception)
-                { }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex, "Cached account lookup failed.");
+                }
 
                 return null;
             }
 
             AccountSummary account = getAccount();
+            Logger.Info($"Cached character load account decision: MatchedAccount='{account?.AccountName ?? "<none>"}', ExistingAccountName='{Paths.AccountName ?? "<null>"}'.");
 
             if (account is not null || !string.IsNullOrEmpty(Paths.AccountName))
             {
                 Paths.AccountName ??= account.AccountName;
+                Logger.Info($"Cached character load using account '{Paths.AccountName ?? "<null>"}'. CharactersPath='{CharactersPath}', CharacterRoutinesPath='{CharacterRoutinesPath}'.");
 
                 _loadedCharacters = true;
                 Settings.LoadAccountSettings(Paths.AccountName);
+                LoadCharacterRoutines("cached-character-load");
 
                 if (!Directory.Exists(AccountImagesPath))
                 {
@@ -811,6 +953,7 @@ namespace Kenedia.Modules.Characters
                 return await LoadCharacterFile();
             }
 
+            Logger.Info("Cached character load did not find an account to load.");
             return false;
         }
 
@@ -902,6 +1045,306 @@ namespace Kenedia.Modules.Characters
         private void RequestCharacterSave()
         {
             _saveCharacters = true;
+        }
+
+        private void LoadCharacterRoutines(string reason = null)
+        {
+            string accountName = Paths.AccountName;
+            string accountPath = Paths.AccountPath;
+            string routinePath = CharacterRoutinesPath;
+
+            Logger.Info($"Character routine load requested. Reason='{reason ?? "<unspecified>"}', AccountName='{accountName ?? "<null>"}', AccountPath='{accountPath ?? "<null>"}', RoutinePath='{routinePath}', ServiceReady={CharacterRoutineService is not null}, ExistingRoutines={CharacterRoutineModels.Count}.");
+
+            if (string.IsNullOrWhiteSpace(Paths.AccountName))
+            {
+                Logger.Info("Skipping character routine load because no account name is available yet.");
+                CharacterRoutineModels.Clear();
+
+                if (CharacterRoutineService is not null)
+                {
+                    CharacterRoutineService.SelectRoutine(null);
+                }
+
+                return;
+            }
+
+            try
+            {
+                CharacterRoutineModels.Clear();
+
+                if (!Directory.Exists(accountPath))
+                {
+                    Logger.Info($"Character routine account folder did not exist. Creating '{accountPath}'.");
+                    _ = Directory.CreateDirectory(accountPath);
+                }
+
+                if (File.Exists(routinePath))
+                {
+                    FileInfo fileInfo = new(routinePath);
+                    Logger.Info($"Character routine file found at '{routinePath}'. Length={fileInfo.Length}, LastWriteUtc={fileInfo.LastWriteTimeUtc:O}.");
+
+                    string content = File.ReadAllText(routinePath);
+                    var routines = DeserializeCharacterRoutines(content);
+
+                    Logger.Info($"Character routine deserialize completed. ParsedRoutines={routines?.Count ?? -1}, ContentLength={content.Length}.");
+
+                    if (routines is not null)
+                    {
+                        foreach (var routine in routines)
+                        {
+                            CharacterRoutineModels.Add(routine);
+                            Logger.Info($"Character routine loaded: Id='{routine.Id}', Name='{routine.Name}', Steps={routine.RoutineSteps.Count}, EnabledSteps={routine.RoutineSteps.Count(step => step.Enabled)}, CompletedSteps={routine.RoutineSteps.Count(step => step.IsCompleted)}, ResetFrequency={routine.ResetFrequency}.");
+                        }
+
+                        Logger.Info($"Loaded {CharacterRoutineModels.Count} character routine(s) from '{routinePath}'.");
+                    }
+                }
+                else
+                {
+                    Logger.Info($"Character routine file does not exist at expected path '{routinePath}'.");
+                    LogAvailableCharacterRoutineFiles();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, $"Failed to load character routines from '{routinePath}'.");
+                Logger.Warn($"{ex}");
+            }
+
+            if (CharacterRoutineService is not null)
+            {
+                CharacterRoutineService.SelectRoutine(CharacterRoutineModels.FirstOrDefault());
+                Logger.Info($"Character routine service selected '{CharacterRoutineService.SelectedRoutine?.Name ?? "<none>"}'. TotalRoutines={CharacterRoutineModels.Count}.");
+            }
+            else
+            {
+                Logger.Info("Character routine service is not available yet; selection deferred.");
+            }
+
+            // Check for any pending resets immediately after loading
+            CheckCharacterRoutineResets();
+        }
+
+        private void LogAvailableCharacterRoutineFiles()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Paths.ModulePath) || !Directory.Exists(Paths.ModulePath))
+                {
+                    Logger.Info($"Character routine scan skipped. ModulePath='{Paths.ModulePath ?? "<null>"}' does not exist.");
+                    return;
+                }
+
+                var files = Directory
+                    .EnumerateFiles(Paths.ModulePath, "characterroutines.json", SearchOption.AllDirectories)
+                    .Take(10)
+                    .ToList();
+
+                if (files.Count == 0)
+                {
+                    Logger.Info($"Character routine scan found no characterroutines.json files below '{Paths.ModulePath}'.");
+                    return;
+                }
+
+                Logger.Info($"Character routine scan found {files.Count} candidate file(s) below '{Paths.ModulePath}': {string.Join(" | ", files)}");
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Character routine scan failed.");
+            }
+        }
+
+        private void CheckCharacterRoutineResets()
+        {
+            if (CharacterRoutineService is not null)
+            {
+                if (CharacterRoutineService.ApplyScheduledResets())
+                {
+                    Logger.Info("Auto-reset completed steps for one or more character routines.");
+                }
+
+                return;
+            }
+
+            bool anyReset = false;
+
+            foreach (var characterRoutine in CharacterRoutineModels)
+            {
+                if (characterRoutine.CheckAndApplyScheduledReset())
+                {
+                    Logger.Info($"Auto-reset completed steps for character routine '{characterRoutine.Name}' (frequency: {characterRoutine.ResetFrequency}).");
+                    anyReset = true;
+                }
+            }
+
+            if (anyReset)
+            {
+                SaveCharacterRoutines();
+            }
+        }
+
+        private void SaveCharacterRoutines()
+        {
+            try
+            {
+                if (!Directory.Exists(Paths.AccountPath))
+                {
+                    _ = Directory.CreateDirectory(Paths.AccountPath);
+                }
+
+                string json = JsonConvert.SerializeObject(CharacterRoutineModels, SerializerSettings.Default);
+                File.WriteAllText(CharacterRoutinesPath, json);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn($"Failed to save character routines to '{CharacterRoutinesPath}'.");
+                Logger.Warn($"{ex}");
+            }
+        }
+
+        private static List<CharacterRoutineModel> DeserializeCharacterRoutines(string content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                return [];
+            }
+
+            JArray root = JArray.Parse(content);
+            var routines = new List<CharacterRoutineModel>(root.Count);
+
+            foreach (var routineToken in root.OfType<JObject>())
+            {
+                var routine = new CharacterRoutineModel
+                {
+                    Id = ParseGuid(routineToken["Id"]) ?? Guid.NewGuid(),
+                    Name = routineToken.Value<string>("Name") ?? string.Empty,
+                    Created = ParseDateTimeOffset(routineToken["Created"]) ?? DateTimeOffset.UtcNow,
+                    ResetFrequency = ParseResetFrequency(routineToken["ResetFrequency"]),
+                };
+
+                foreach (var stepToken in GetRoutineStepsToken(routineToken).OfType<JObject>())
+                {
+                    routine.RoutineSteps.Add(new CharacterRoutineStep(
+                        stepToken.Value<string>("CharacterName") ?? stepToken.Value<string>("Character") ?? string.Empty,
+                        stepToken.Value<string>("Description") ?? string.Empty)
+                    {
+                        Enabled = stepToken.Value<bool?>("Enabled") ?? true,
+                        Completed = ParseCompletedTimestamp(stepToken["Completed"] ?? stepToken["IsCompleted"]),
+                    });
+                }
+
+                routines.Add(routine);
+            }
+
+            return routines;
+        }
+
+        private static JArray GetRoutineStepsToken(JObject routineToken)
+        {
+            return routineToken["RoutineSteps"] as JArray
+                ?? routineToken["RoutineEntries"] as JArray
+                ?? routineToken["Steps"] as JArray
+                ?? routineToken["Entries"] as JArray
+                ?? [];
+        }
+
+        private static ResetFrequency ParseResetFrequency(JToken token)
+        {
+            if (token is null)
+            {
+                return ResetFrequency.None;
+            }
+
+            if (token.Type == JTokenType.Integer)
+            {
+                int rawValue = token.Value<int>();
+                return Enum.IsDefined(typeof(ResetFrequency), rawValue) ? (ResetFrequency)rawValue : ResetFrequency.None;
+            }
+
+            return Enum.TryParse(token.Value<string>(), true, out ResetFrequency frequency)
+                ? frequency
+                : ResetFrequency.None;
+        }
+
+        private static Guid? ParseGuid(JToken token)
+        {
+            if (token is null || token.Type == JTokenType.Null || token.Type == JTokenType.Undefined)
+            {
+                return null;
+            }
+
+            if (token.Type == JTokenType.Guid)
+            {
+                return token.Value<Guid>();
+            }
+
+            string value = token.Value<string>();
+            return Guid.TryParse(value, out var guid) ? guid : null;
+        }
+
+        private static DateTimeOffset? ParseDateTimeOffset(JToken token)
+        {
+            if (token is null || token.Type == JTokenType.Null || token.Type == JTokenType.Undefined)
+            {
+                return null;
+            }
+
+            if (token.Type == JTokenType.Date)
+            {
+                DateTime dateTime = token.Value<DateTime>();
+                return dateTime.Kind == DateTimeKind.Unspecified
+                    ? new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Utc))
+                    : new DateTimeOffset(dateTime.ToUniversalTime());
+            }
+
+            string value = token.Value<string>();
+            return DateTimeOffset.TryParse(value, out var offset) ? offset : null;
+        }
+
+        private static DateTime? ParseCompletedTimestamp(JToken token)
+        {
+            if (token is null || token.Type == JTokenType.Null || token.Type == JTokenType.Undefined)
+            {
+                return null;
+            }
+
+            if (token.Type == JTokenType.Boolean)
+            {
+                return token.Value<bool>() ? DateTime.UtcNow : null;
+            }
+
+            if (token.Type == JTokenType.Date)
+            {
+                return EnsureUtc(token.Value<DateTime>());
+            }
+
+            string value = token.Value<string>();
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+
+            if (DateTimeOffset.TryParse(value, out var offset))
+            {
+                return offset.UtcDateTime;
+            }
+
+            if (DateTime.TryParse(value, out var dateTime))
+            {
+                return EnsureUtc(dateTime);
+            }
+
+            return null;
+        }
+
+        private static DateTime EnsureUtc(DateTime value)
+        {
+            return value.Kind switch
+            {
+                DateTimeKind.Utc => value,
+                DateTimeKind.Local => value.ToUniversalTime(),
+                _ => DateTime.SpecifyKind(value, DateTimeKind.Utc),
+            };
         }
     }
 }

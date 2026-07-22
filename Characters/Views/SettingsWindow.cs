@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Settings;
@@ -452,6 +452,44 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedKeyBindingName = () => strings.MailKey,
                 SetLocalizedTooltip = () => strings.MailKey_Tooltip,
             };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.ToggleCharacterRoutineKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.ToggleCharacterRoutineKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.ToggleCharacterRoutineKey,
+                SetLocalizedTooltip = () => strings.ToggleCharacterRoutineKey_Tooltip,
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.NextCharacterRoutineStepKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.NextCharacterRoutineStepKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.NextCharacterRoutineStepKey,
+                SetLocalizedTooltip = () => strings.NextCharacterRoutineStepKey_Tooltip,
+            };
             #endregion Keybinds
         }
 
@@ -580,6 +618,41 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             var subP = new Panel()
+            {
+                Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                Height = 30,
+            };
+
+            _ = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Height = 30,
+                Text = strings.CompletedRoutineStepsBehavior,
+            };
+
+            _ = new Dropdown()
+            {
+                Parent = subP,
+                Location = new(250, 0),
+                SetLocalizedItems = () =>
+                {
+                    return
+                    [
+                        strings.CompletedRoutineStepsBehavior_Nothing,
+                        strings.CompletedRoutineStepsBehavior_Hide,
+                        strings.CompletedRoutineStepsBehavior_MoveToBottom,
+                    ];
+                },
+                SelectedItem = ToCompletedRoutineStepsBehaviorText(_settings.CompletedRoutineStepsBehavior.Value),
+                ValueChangedAction = (selected) =>
+                {
+                    _settings.CompletedRoutineStepsBehavior.Value = ParseCompletedRoutineStepsBehavior(selected);
+                },
+            };
+
+            subP = new Panel()
             {
                 Parent = cP,
                 WidthSizingMode = SizingMode.Fill,
@@ -1060,6 +1133,23 @@ namespace Kenedia.Modules.Characters.Views
             {
                 setting.Value = fontSize;
             }
+        }
+
+        private static string ToCompletedRoutineStepsBehaviorText(Settings.CompletedRoutineStepsDisplayBehavior behavior)
+        {
+            return behavior switch
+            {
+                Settings.CompletedRoutineStepsDisplayBehavior.HideCompletedRoutineSteps => strings.CompletedRoutineStepsBehavior_Hide,
+                Settings.CompletedRoutineStepsDisplayBehavior.MoveCompletedRoutineStepsToBottomOfDisplay => strings.CompletedRoutineStepsBehavior_MoveToBottom,
+                _ => strings.CompletedRoutineStepsBehavior_Nothing,
+            };
+        }
+
+        private static Settings.CompletedRoutineStepsDisplayBehavior ParseCompletedRoutineStepsBehavior(string value)
+        {
+            if (value == strings.CompletedRoutineStepsBehavior_Hide) return Settings.CompletedRoutineStepsDisplayBehavior.HideCompletedRoutineSteps;
+            if (value == strings.CompletedRoutineStepsBehavior_MoveToBottom) return Settings.CompletedRoutineStepsDisplayBehavior.MoveCompletedRoutineStepsToBottomOfDisplay;
+            return Settings.CompletedRoutineStepsDisplayBehavior.Nothing;
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)

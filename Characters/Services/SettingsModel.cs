@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Input;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Characters.Models;
@@ -33,6 +33,10 @@ namespace Kenedia.Modules.Characters.Services
             RadialKey = internalSettings.DefineSetting(nameof(RadialKey), new KeyBinding(Keys.None));
             InventoryKey = internalSettings.DefineSetting(nameof(InventoryKey), new KeyBinding(Keys.I));
             MailKey = internalSettings.DefineSetting(nameof(MailKey), new KeyBinding(Keys.None));
+            ToggleCharacterRoutineKey = internalSettings.DefineSetting(nameof(ToggleCharacterRoutineKey), new KeyBinding(Keys.None));
+            // Keep the persisted setting ids stable so existing account settings continue to load.
+            NextCharacterRoutineStepKey = internalSettings.DefineSetting("NextCharacterRoutineEntryKey", new KeyBinding(Keys.None));
+            CompletedRoutineStepsBehavior = internalSettings.DefineSetting("CompletedRoutineEntriesBehavior", CompletedRoutineStepsDisplayBehavior.Nothing);
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             CloseWindowOnSwap = internalSettings.DefineSetting(nameof(CloseWindowOnSwap), false);
             FilterDiacriticsInsensitive = internalSettings.DefineSetting(nameof(FilterDiacriticsInsensitive), false);
@@ -74,6 +78,7 @@ namespace Kenedia.Modules.Characters.Services
             KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 10);
             FilterDelay = internalSettings.DefineSetting(nameof(FilterDelay), 0);
             WindowSize = internalSettings.DefineSetting(nameof(CurrentWindowSize), new Point(385, 920));
+            CharacterRoutineWindowSize = internalSettings.DefineSetting(nameof(CharacterRoutineWindowSize), new Point(750, 700));
             WindowOffset = internalSettings.DefineSetting(nameof(WindowOffset), new RectangleDimensions(8, 31, -8, -8));
             DisplayToggles = internalSettings.DefineSetting(nameof(DisplayToggles), new Dictionary<string, ShowCheckPair>());
 
@@ -171,6 +176,13 @@ namespace Kenedia.Modules.Characters.Services
             Custom,
         }
 
+        public enum CompletedRoutineStepsDisplayBehavior
+        {
+            Nothing,
+            HideCompletedRoutineSteps,
+            MoveCompletedRoutineStepsToBottomOfDisplay,
+        }
+
         public SettingCollection AccountSettings { get; private set; }
 
         public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; private set; }
@@ -194,6 +206,8 @@ namespace Kenedia.Modules.Characters.Services
         public Point CurrentWindowSize => WindowSize.Value;
 
         public SettingEntry<Point> WindowSize { get; private set; }
+
+        public SettingEntry<Point> CharacterRoutineWindowSize { get; private set; }
 
         public SettingEntry<RectangleDimensions> WindowOffset { get; private set; }
 
@@ -295,6 +309,12 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<KeyBinding> InventoryKey { get; private set; }
 
         public SettingEntry<KeyBinding> MailKey { get; private set; }
+
+        public SettingEntry<KeyBinding> ToggleCharacterRoutineKey { get; private set; }
+
+        public SettingEntry<KeyBinding> NextCharacterRoutineStepKey { get; private set; }
+
+        public SettingEntry<CompletedRoutineStepsDisplayBehavior> CompletedRoutineStepsBehavior { get; private set; }
 
         public SettingEntry<bool> OnlyEnterOnExact { get; private set; }
 

@@ -1,0 +1,299 @@
+[
+  {
+    "Names": {
+      "de": "Druide",
+      "en": "Druid",
+      "es": "Druida",
+      "fr": "Druide"
+    },
+    "Id": 5,
+    "API_Id": 5,
+    "Name": "Druide"
+  },
+  {
+    "Names": {
+      "de": "Draufgänger",
+      "en": "Daredevil",
+      "es": "Temerario",
+      "fr": "Fracasseur"
+    },
+    "Id": 7,
+    "API_Id": 7,
+    "Name": "Fracasseur"
+  },
+  {
+    "Names": {
+      "de": "Berserker",
+      "en": "Berserker",
+      "es": "Berserker",
+      "fr": "Berserker"
+    },
+    "Id": 18,
+    "API_Id": 18,
+    "Name": "Berserker"
+  },
+  {
+    "Names": {
+      "de": "Drachenjäger",
+      "en": "Dragonhunter",
+      "es": "Cazadragones",
+      "fr": "Draconnier"
+    },
+    "Id": 27,
+    "API_Id": 27,
+    "Name": "Draconnier"
+  },
+  {
+    "Names": {
+      "de": "Schnitter",
+      "en": "Reaper",
+      "es": "Segador",
+      "fr": "Faucheur"
+    },
+    "Id": 34,
+    "API_Id": 34,
+    "Name": "Faucheur"
+  },
+  {
+    "Names": {
+      "de": "Chronomant",
+      "en": "Chronomancer",
+      "es": "Cronomante",
+      "fr": "Chronomancien"
+    },
+    "Id": 40,
+    "API_Id": 40,
+    "Name": "Chronomancien"
+  },
+  {
+    "Names": {
+      "de": "Schrotter",
+      "en": "Scrapper",
+      "es": "Chatarrero",
+      "fr": "Mécatronicien"
+    },
+    "Id": 43,
+    "API_Id": 43,
+    "Name": "Mécatronicien"
+  },
+  {
+    "Names": {
+      "de": "Sturmbote",
+      "en": "Tempest",
+      "es": "Tempestad",
+      "fr": "Cataclyste"
+    },
+    "Id": 48,
+    "API_Id": 48,
+    "Name": "Cataclyste"
+  },
+  {
+    "Names": {
+      "de": "Herold",
+      "en": "Herald",
+      "es": "Heraldo",
+      "fr": "Héraut"
+    },
+    "Id": 52,
+    "API_Id": 52,
+    "Name": "Héraut"
+  },
+  {
+    "Names": {
+      "de": "Seelenwandler",
+      "en": "Soulbeast",
+      "es": "Bestialma",
+      "fr": "Animorphe"
+    },
+    "Id": 55,
+    "API_Id": 55,
+    "Name": "Animorphe"
+  },
+  {
+    "Names": {
+      "de": "Weber",
+      "en": "Weaver",
+      "es": "Tejedor",
+      "fr": "Tissesort"
+    },
+    "Id": 56,
+    "API_Id": 56,
+    "Name": "Tissesort"
+  },
+  {
+    "Names": {
+      "de": "Holoschmied",
+      "en": "Holosmith",
+      "es": "Holoartesano",
+      "fr": "Holographiste"
+    },
+    "Id": 57,
+    "API_Id": 57,
+    "Name": "Holographiste"
+  },
+  {
+    "Names": {
+      "de": "Scharfschütze",
+      "en": "Deadeye",
+      "es": "Certero",
+      "fr": "Sniper"
+    },
+    "Id": 58,
+    "API_Id": 58,
+    "Name": "Sniper"
+  },
+  {
+    "Names": {
+      "de": "Illusionist",
+      "en": "Mirage",
+      "es": "Quimérico",
+      "fr": "Mirage"
+    },
+    "Id": 59,
+    "API_Id": 59,
+    "Name": "Mirage"
+  },
+  {
+    "Names": {
+      "de": "Pestbringer",
+      "en": "Scourge",
+      "es": "Azotador",
+      "fr": "Fléau"
+    },
+    "Id": 60,
+    "API_Id": 60,
+    "Name": "Fléau"
+  },
+  {
+    "Names": {
+      "de": "Bannbrecher",
+      "en": "Spellbreaker",
+      "es": "Rompehechizos",
+      "fr": "Brisesort"
+    },
+    "Id": 61,
+    "API_Id": 61,
+    "Name": "Brisesort"
+  },
+  {
+    "Names": {
+      "de": "Aufwiegler",
+      "en": "Firebrand",
+      "es": "Abrasador",
+      "fr": "Incendiaire"
+    },
+    "Id": 62,
+    "API_Id": 62,
+    "Name": "Incendiaire"
+  },
+  {
+    "Names": {
+      "de": "Abtrünniger",
+      "en": "Renegade",
+      "es": "Renegado",
+      "fr": "Renégat"
+    },
+    "Id": 63,
+    "API_Id": 63,
+    "Name": "Renégat"
+  },
+  {
+    "Names": {
+      "de": "Vorbote",
+      "en": "Harbinger",
+      "es": "Augurador",
+      "fr": "Augure"
+    },
+    "Id": 64,
+    "API_Id": 64,
+    "Name": "Augure"
+  },
+  {
+    "Names": {
+      "de": "Willensverdreher",
+      "en": "Willbender",
+      "es": "Subyugador",
+      "fr": "Subjugueur"
+    },
+    "Id": 65,
+    "API_Id": 65,
+    "Name": "Subjugueur"
+  },
+  {
+    "Names": {
+      "de": "Virtuose",
+      "en": "Virtuoso",
+      "es": "Virtuoso",
+      "fr": "Virtuose"
+    },
+    "Id": 66,
+    "API_Id": 66,
+    "Name": "Virtuose"
+  },
+  {
+    "Names": {
+      "de": "Katalysierer",
+      "en": "Catalyst",
+      "es": "Catalizador",
+      "fr": "Catalyseur"
+    },
+    "Id": 67,
+    "API_Id": 67,
+    "Name": "Catalyseur"
+  },
+  {
+    "Names": {
+      "de": "Klingengeschworener",
+      "en": "Bladesworn",
+      "es": "Jurafilos",
+      "fr": "Jurelame"
+    },
+    "Id": 68,
+    "API_Id": 68,
+    "Name": "Jurelame"
+  },
+  {
+    "Names": {
+      "de": "Rechtssuchender",
+      "en": "Vindicator",
+      "es": "Justiciero",
+      "fr": "Justicier"
+    },
+    "Id": 69,
+    "API_Id": 69,
+    "Name": "Justicier"
+  },
+  {
+    "Names": {
+      "de": "Mech-Lenker",
+      "en": "Mechanist",
+      "es": "Mechanista",
+      "fr": "Méchamancien"
+    },
+    "Id": 70,
+    "API_Id": 70,
+    "Name": "Méchamancien"
+  },
+  {
+    "Names": {
+      "de": "Phantom",
+      "en": "Specter",
+      "es": "Espectro",
+      "fr": "Spectre"
+    },
+    "Id": 71,
+    "API_Id": 71,
+    "Name": "Spectre"
+  },
+  {
+    "Names": {
+      "de": "Ungezähmter",
+      "en": "Untamed",
+      "es": "Indómito",
+      "fr": "Indomptable"
+    },
+    "Id": 72,
+    "API_Id": 72,
+    "Name": "Indomptable"
+  }
+]

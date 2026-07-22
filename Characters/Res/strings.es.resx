@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1048,5 +1048,158 @@ Ruta a 'tesseract.dll': {0}</value>
   </data>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Centrar siempre el menú radial en el centro de la ventana de juegos</value>
+  </data>
+  <data name="ToggleCharacterRoutineKey" xml:space="preserve">
+    <value>Alternar rutina de personajes</value>
+  </data>
+  <data name="ToggleCharacterRoutineKey_Tooltip" xml:space="preserve">
+    <value>Tecla para abrir o cerrar la ventana de la rutina de personajes</value>
+  </data>
+  <data name="NextCharacterRoutineEntryKey" xml:space="preserve">
+    <value>Siguiente paso</value>
+  </data>
+  <data name="NextCharacterRoutineEntryKey_Tooltip" xml:space="preserve">
+    <value>Tecla para pasar al siguiente personaje incompleto de la rutina de personajes activa</value>
+  </data>
+  <data name="NewCharacterRoutine" xml:space="preserve">
+    <value>Nueva rutina de personajes</value>
+  </data>
+  <data name="SearchCharacterRoutines" xml:space="preserve">
+    <value>Buscar rutinas...</value>
+  </data>
+  <data name="CharacterRoutinePlaceholder" xml:space="preserve">
+    <value>Seleccione o cree una rutina de personajes para empezar.</value>
+  </data>
+  <data name="DeleteList" xml:space="preserve">
+    <value>Borrar lista</value>
+  </data>
+  <data name="AutoResetField" xml:space="preserve">
+    <value>Reinicio automático:</value>
+  </data>
+  <data name="ResetNone" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="ResetDaily" xml:space="preserve">
+    <value>Diario (00:00 UTC)</value>
+  </data>
+  <data name="ResetWeekly" xml:space="preserve">
+    <value>Semanal (lun 07:30 UTC)</value>
+  </data>
+  <data name="RoutineEntryDescriptionPlaceholder" xml:space="preserve">
+    <value>Descripci?n del paso (opcional)</value>
+  </data>
+  <data name="AddRoutineEntry" xml:space="preserve">
+    <value>A?adir paso</value>
+  </data>
+  <data name="CopyCharacterName" xml:space="preserve">
+    <value>Copiar nombre de personaje</value>
+  </data>
+  <data name="CopyCharacterRoutine" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="CopyCharacterRoutineTooltip" xml:space="preserve">
+    <value>Copiar esta rutina de personajes</value>
+  </data>
+  <data name="RoutineEntries" xml:space="preserve">
+    <value>Pasos</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Acabado</value>
+  </data>
+  <data name="CompletedRoutineEntriesHiddenTooltip" xml:space="preserve">
+    <value>Los pasos completados se ocultan seg?n su configuraci?n.</value>
+  </data>
+  <data name="UncheckAll" xml:space="preserve">
+    <value>Desmarcar todo</value>
+  </data>
+  <data name="CheckAll" xml:space="preserve">
+    <value>Comprobar todo</value>
+  </data>
+  <data name="CompleteCharacterRoutine" xml:space="preserve">
+    <value>Completa la rutina de personajes.</value>
+  </data>
+  <data name="SwitchToFirstIncomplete" xml:space="preserve">
+    <value>Pasar al primer paso incompleto.</value>
+  </data>
+  <data name="AllRoutineEntriesComplete" xml:space="preserve">
+    <value>Todos los pasos de esta rutina de personajes est?n completos.</value>
+  </data>
+  <data name="NextClickMarksComplete" xml:space="preserve">
+    <value>El siguiente clic marca '{0}' completo.</value>
+  </data>
+  <data name="RoutineEntrySwitchFailed" xml:space="preserve">
+    <value>No se pudo cambiar a '{0}'. Haz clic en Siguiente para reintentarlo.</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
+  <data name="RoutineEntryCharacterNotFound" xml:space="preserve">
+    <value>No se encontr? el personaje '{0}'. Edita este paso para continuar.</value>
+  </data>
+  <data name="RoutineEntryCharacterNotAssigned" xml:space="preserve">
+    <value>No hay ningún personaje asignado. Asigna uno para continuar.</value>
+  </data>
+  <data name="HideComplete" xml:space="preserve">
+    <value>Ocultar Completo</value>
+  </data>
+  <data name="UnhideComplete" xml:space="preserve">
+    <value>Desocultar Completo</value>
+  </data>
+  <data name="EditEntry" xml:space="preserve">
+    <value>Editar entrada</value>
+  </data>
+  <data name="RemoveRoutineEntry" xml:space="preserve">
+    <value>Eliminar paso</value>
+  </data>
+  <data name="DeleteConfirmationTitle" xml:space="preserve">
+    <value>Confirmar eliminación</value>
+  </data>
+  <data name="ConfirmCharacterRoutineEntryDelete" xml:space="preserve">
+    <value>?Eliminar el paso '{0}'? Esta acci?n no se puede deshacer.</value>
+  </data>
+  <data name="ConfirmCharacterRoutineDelete" xml:space="preserve">
+    <value>?Eliminar la rutina de personajes '{0}' y todos sus pasos? Esta acci?n no se puede deshacer.</value>
+  </data>
+  <data name="CharacterRoutineCopyName" xml:space="preserve">
+    <value>Copia de {0}</value>
+  </data>
+  <data name="CharacterRoutineDefaultName" xml:space="preserve">
+    <value>Rutina de personajes {0}</value>
+  </data>
+  <data name="CompletedRoutineEntriesBehavior" xml:space="preserve">
+    <value>Comportamiento de pasos completados</value>
+  </data>
+  <data name="CompletedRoutineEntriesBehavior_Nothing" xml:space="preserve">
+    <value>Nada</value>
+  </data>
+  <data name="CompletedRoutineEntriesBehavior_Hide" xml:space="preserve">
+    <value>Ocultar pasos completados</value>
+  </data>
+  <data name="CompletedRoutineEntriesBehavior_MoveToBottom" xml:space="preserve">
+    <value>Mover completado a la parte inferior</value>
+  </data>
+  <data name="CharacterRoutines" xml:space="preserve">
+    <value>Rutinas de personajes</value>
+  </data>
+  <data name="FreeInventorySlots" xml:space="preserve">
+    <value>Espacios libres de inventario</value>
+  </data>
+  <data name="FreeInventorySlotsAmount" xml:space="preserve">
+    <value>{0} espacios libres de inventario</value>
+  </data>
+  <data name="FullInventory" xml:space="preserve">
+    <value>Inventario lleno</value>
+  </data>
+  <data name="SideMenu" xml:space="preserve">
+    <value>Menú lateral</value>
+  </data>
+  <data name="SearchCharacterName" xml:space="preserve">
+    <value>Asignar personaje...</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>- Sin asignar -</value>
   </data>
 </root>

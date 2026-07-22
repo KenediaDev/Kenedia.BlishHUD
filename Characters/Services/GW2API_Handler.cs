@@ -1,4 +1,4 @@
-﻿using Blish_HUD.Modules.Managers;
+using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
@@ -27,9 +27,12 @@ namespace Kenedia.Modules.Characters.Services
 {
     public class GW2API_Handler
     {
+        private const int InventoryFetchConcurrency = 8;
+
         private readonly Logger _logger = Logger.GetLogger(typeof(GW2API_Handler));
         private readonly Gw2ApiManager _gw2ApiManager;
         private readonly Action<IApiV2ObjectList<Character>> _callBack;
+        private readonly Action<string, int?> _inventorySlotsCallBack;
         private readonly Data _data;
         private readonly Func<Core.Controls.NotificationBadge> _notificationBadge;
         private readonly Func<LoadingSpinner> _getSpinner;
@@ -42,10 +45,11 @@ namespace Kenedia.Modules.Characters.Services
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Data data, Func<Core.Controls.NotificationBadge> notificationBadge)
+        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Action<string, int?> inventorySlotsCallBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Data data, Func<Core.Controls.NotificationBadge> notificationBadge)
         {
             _gw2ApiManager = gw2ApiManager;
             _callBack = callBack;
+            _inventorySlotsCallBack = inventorySlotsCallBack;
             _getSpinner = getSpinner;
             _paths = paths;
             _accountFilePath = paths.ModulePath + @"\accounts.json";
@@ -67,7 +71,6 @@ namespace Kenedia.Modules.Characters.Services
                 var temp = field;
                 if (Common.SetProperty(field, value, v => field = v, AccountChanged))
                 {
-                    _paths.AccountName = value?.Name;
                     Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");
                 }
             }
@@ -165,8 +168,10 @@ namespace Kenedia.Modules.Characters.Services
                     UpdateAccountsList(account, characters);
 
                     _callBack?.Invoke(characters);
-                    Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    _getSpinner?.Invoke()?.Hide();
                     _apiStatus = StatusType.Success;
+
+                    _ = FetchFreeInventorySlots(characters.ToList(), cancellationToken, _cancellationTokenSource);
                     return true;
                 }
                 else
@@ -224,6 +229,81 @@ namespace Kenedia.Modules.Characters.Services
 
             result = Regex.Replace(result, pattern, replacement);
             return string.IsNullOrEmpty(result) ? null : $"\n\n{result}";
+        }
+
+        private async Task FetchFreeInventorySlots(IReadOnlyList<Character> characters, CancellationToken cancellationToken, CancellationTokenSource cancellationTokenSource)
+        {
+            if (!_gw2ApiManager.HasPermissions(new[] { TokenPermission.Inventories }))
+            {
+                Characters.Logger.Info($"No permission to fetch inventory data. Skipping free inventory slots fetch.");
+                ClearCompletedCancellationSource(cancellationTokenSource);
+                return;
+            }
+
+            Characters.Logger.Info($"Fetching free inventory slots for {characters.Count} characters with {InventoryFetchConcurrency} parallel requests.");
+            using var throttler = new SemaphoreSlim(InventoryFetchConcurrency);
+            var tasks = characters.Select(character => FetchFreeInventorySlots(character, throttler, cancellationToken)).ToList();
+
+            try
+            {
+                await Task.WhenAll(tasks);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                Characters.Logger.Info($"Canceled inventory data fetch.");
+            }
+            catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
+            {
+                _logger.Warn(ex, "Failed while fetching free inventory slots.");
+            }
+            finally
+            {
+                ClearCompletedCancellationSource(cancellationTokenSource);
+            }
+        }
+
+        private async Task FetchFreeInventorySlots(Character character, SemaphoreSlim throttler, CancellationToken cancellationToken)
+        {
+            await throttler.WaitAsync(cancellationToken);
+            try
+            {
+                Characters.Logger.Info($"Fetching inventory for '{character.Name}' ...");
+                CharactersInventory inventory = await _gw2ApiManager.Gw2ApiClient.V2.Characters[character.Name].Inventory.GetAsync(cancellationToken);
+                _inventorySlotsCallBack?.Invoke(character.Name, CountFreeInventorySlots(inventory));
+            }
+            catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
+            {
+                _logger.Warn(ex, $"Failed to fetch inventory for '{character.Name}'.");
+            }
+            finally
+            {
+                throttler.Release();
+            }
+        }
+
+        private void ClearCompletedCancellationSource(CancellationTokenSource cancellationTokenSource)
+        {
+            if (ReferenceEquals(_cancellationTokenSource, cancellationTokenSource))
+            {
+                _cancellationTokenSource = null;
+            }
+        }
+
+        private static int? CountFreeInventorySlots(CharactersInventory inventory)
+        {
+            if (inventory?.Bags is null)
+            {
+                return null;
+            }
+
+            int freeSlots = 0;
+            foreach (var bag in inventory.Bags.Where(b => b is not null))
+            {
+                int usedSlots = bag.Inventory?.Count(item => item is not null) ?? 0;
+                freeSlots += Math.Max(0, bag.Size - usedSlots);
+            }
+
+            return freeSlots;
         }
 
         private async Task<Func<string>> HandleAPIExceptions(Exception ex)

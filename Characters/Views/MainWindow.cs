@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Res;
@@ -43,6 +43,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly ImageButton _toggleSideMenuButton;
         private readonly CollapseContainer _collapseWrapper;
         private readonly ImageButton _displaySettingsButton;
+        private readonly ImageButton _characterRoutinesButton;
         private readonly ImageButton _randomButton;
         private readonly ImageButton _lastButton;
         private readonly ImageButton _clearButton;
@@ -212,6 +213,17 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => SettingsWindow?.ToggleWindow(),
             };
 
+            _characterRoutinesButton = new()
+            {
+                Parent = _buttonPanel,
+                Texture = textureManager.GetIcon(TextureManager.Icons.CharacterRoutine),
+                HoveredTexture = textureManager.GetIcon(TextureManager.Icons.CharacterRoutine_Hovered),
+                ClickedTexture= textureManager.GetIcon(TextureManager.Icons.CharacterRoutine_Active),
+                Size = new Point(25, 25),
+                SetLocalizedTooltip = () => strings.CharacterRoutines,
+                ClickAction = (m) => CharacterRoutineWindow?.ToggleWindow(),
+            };
+
             _toggleSideMenuButton = new()
             {
                 Parent = _buttonPanel,
@@ -219,7 +231,7 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new Point(25, 25),
                 ImageColor = ContentService.Colors.ColonialWhite,
                 ColorHovered = Color.White,
-                SetLocalizedTooltip = () => string.Format(strings.Toggle, "Side Menu"),
+                SetLocalizedTooltip = () => string.Format(strings.Toggle, strings.SideMenu),
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 
@@ -306,6 +318,8 @@ namespace Kenedia.Modules.Characters.Views
 
         public SettingsWindow SettingsWindow { get; set; }
 
+        public CharacterRoutineWindow CharacterRoutineWindow { get; set; }
+
         public SideMenu SideMenu { get; }
 
         private void PinSideMenus_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
@@ -339,6 +353,12 @@ namespace Kenedia.Modules.Characters.Views
         public void FilterCharacters(object sender = null, EventArgs e = null)
         {
             _filterCharacters = true;
+        }
+
+        public void ClearFilterText()
+        {
+            _filterBox.Text = null;
+            _filterBox.ForceFilter();
         }
 
         public void PerformFiltering()
@@ -384,7 +404,7 @@ namespace Kenedia.Modules.Characters.Views
 
                 if (_settings.DisplayToggles.Value["Tags"].Check)
                 {
-                    stringFilters.Add(new("Tags", new((c) => { foreach (string tag in c.Tags) { if (SearchableString(tag).Contains(string_text)) return true; } return false; }, true)));
+                    stringFilters.Add(new("Tags", new((c) => { foreach (string tag in c.DisplayTags) { if (SearchableString(tag).Contains(string_text)) return true; } return false; }, true)));
                 }
             }
 
@@ -672,6 +692,7 @@ namespace Kenedia.Modules.Characters.Views
 
             _dropdownPanel?.Dispose();
             _displaySettingsButton?.Dispose();
+            _characterRoutinesButton?.Dispose();
             _filterBox?.Dispose();
             SideMenu?.Dispose();
         }
@@ -701,6 +722,33 @@ namespace Kenedia.Modules.Characters.Views
         private void FilterBox_Click()
         {
             if (_settings.OpenSidemenuOnSearch.Value) ShowAttached(SideMenu);
+        }
+
+        public void SwitchToCharacterBySearch(string characterName)
+        {
+            string searchText = characterName?.Trim();
+            if (string.IsNullOrEmpty(searchText))
+            {
+                return;
+            }
+
+            _filterBox.Text = searchText;
+            _filterBox.ForceFilter();
+
+            var matchingCharacter = CharactersPanel.Children
+                .OfType<CharacterCard>()
+                .FirstOrDefault(card => card.Visible);
+
+            matchingCharacter?.Character?.Swap();
+
+            if (matchingCharacter is null)
+            {
+                Characters.Logger.Debug($"No character found for character routine switch request '{searchText}'.");
+                if (!Visible)
+                {
+                    Show();
+                }
+            }
         }
 
         private void DraggingControl_LeftMouseButtonReleased(object sender, Blish_HUD.Input.MouseEventArgs e)

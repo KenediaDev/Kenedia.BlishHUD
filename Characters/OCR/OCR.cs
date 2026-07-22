@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Characters.Views;

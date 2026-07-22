@@ -20,7 +20,6 @@ namespace Kenedia.Modules.Core.Controls
         private readonly List<ConditionalNotification> _removeNotifications = [];
         private DetailedTexture _badge = new(222246);
         private double _lastChecked;
-        private bool _deleting = false;
 
         private string _message;
 
@@ -57,12 +56,14 @@ namespace Kenedia.Modules.Core.Controls
 
         private void Notifications_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (_deleting)
-                return;
-
             e.OldItems?.Cast<ConditionalNotification>().ForEach(n => n.ConditionMatched -= Notification_ConditionMatched);
             e.NewItems?.Cast<ConditionalNotification>().ForEach(n => n.ConditionMatched += Notification_ConditionMatched);
 
+            UpdateNotificationState();
+        }
+
+        private void UpdateNotificationState()
+        {
             _message = Notifications.Count > 0 ? string.Join(Environment.NewLine, Notifications.Select(e => e.NotificationText).Distinct().Enumerate(Environment.NewLine, "[{0}]: ")) : string.Empty;
             BasicTooltipText = _message;
 
@@ -71,7 +72,10 @@ namespace Kenedia.Modules.Core.Controls
 
         private void Notification_ConditionMatched(object sender, EventArgs e)
         {
-            _removeNotifications.Add(sender as ConditionalNotification);
+            if (sender is ConditionalNotification notification && !_removeNotifications.Contains(notification))
+            {
+                _removeNotifications.Add(notification);
+            }
         }
 
         private void OnAnchorChanged(object sender, ValueChangedEventArgs<Control> e)
@@ -107,8 +111,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender = null, Blish_HUD.ValueChangedEventArgs<Locale> e = null)
         {
-            _message = Notifications.Count > 0 ? string.Join(Environment.NewLine, Notifications.Select(e => e.NotificationText).Distinct().Enumerate(Environment.NewLine, "[{0}]: ")) : string.Empty;
-            BasicTooltipText = _message;
+            UpdateNotificationState();
         }
 
         protected override void OnMouseMoved(MouseEventArgs e)
@@ -172,11 +175,13 @@ namespace Kenedia.Modules.Core.Controls
                 notification.CheckCondition();
             }
 
-            for (int i = 0; i < _removeNotifications.Count; i++)
+            foreach (var notification in _removeNotifications)
             {
-                _deleting = i < _removeNotifications.Count - 1;
-                _ = Notifications.Remove(_removeNotifications[i]);
+                _ = Notifications.Remove(notification);
             }
+
+            _removeNotifications.Clear();
+            UpdateNotificationState();
         }
 
         public void AddNotification(ConditionalNotification notification)
@@ -186,7 +191,6 @@ namespace Kenedia.Modules.Core.Controls
                 return;
             }
 
-            notification.ConditionMatched += Notification_ConditionMatched;
             Notifications.Add(notification);
         }
     }

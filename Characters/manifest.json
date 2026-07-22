@@ -7,6 +7,10 @@
     "characters": {
       "optional": false,
       "details": "Required to fetch the characters list and details."
+    },
+    "inventories": {
+      "optional": true,
+      "details": "Optional. Used to show each character's free inventory slots and detect full inventories."
     }
   },
   "contributors": [
@@ -26,5 +30,5 @@
   "namespace": "Kenedia.Modules.Characters",
   "package": "Kenedia.Modules.Characters.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "1.0.44"
+  "version": "1.0.45"
 }

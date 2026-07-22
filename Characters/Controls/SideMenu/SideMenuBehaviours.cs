@@ -27,6 +27,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             new( "NextBirthday", null),
             new( "Age", null),
             new( "Map", null),
+            new( "FreeInventorySlots", null),
             new( "CraftingProfession", null),
             new( "OnlyMaxCrafting", null),
             new( "CustomIndex", null),
@@ -87,7 +88,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             for (int i = 0; i < _toggles.Count; i++)
             {
                 KeyValuePair<string, DisplayCheckToggle> t = _toggles[i];
-                DisplayCheckToggle ctrl = new(textureManager, _settings, t.Key, t.Key is "Name" or "Profession" or "LastLogin")
+                DisplayCheckToggle ctrl = new(textureManager, _settings, t.Key, t.Key is "Name" or "Profession" or "LastLogin", true, t.Key is not "FreeInventorySlots")
                 {
                     Parent = this,
                 };

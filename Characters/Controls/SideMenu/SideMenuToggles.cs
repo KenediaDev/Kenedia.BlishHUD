@@ -17,6 +17,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
     public class SideMenuToggles : FlowTab, ILocalizable
     {
+        private const string FullInventoryFilterKey = "FullInventory";
+
         private readonly List<Tag> _tags = [];
         private readonly FlowPanel _toggleFlowPanel;
         private readonly TagFlowPanel _tagFlowPanel;
@@ -25,18 +27,21 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly SearchFilterCollection _tagFilters;
         private readonly SearchFilterCollection _searchFilters;
         private readonly Action _onFilterChanged;
+        private readonly Func<bool> _hasFullInventoryCharacters;
         private readonly TagList _allTags;
         private readonly Data _data;
         private Rectangle _contentRectangle;
+        private Tag _fullInventoryTag;
 
         public event EventHandler TogglesChanged;
 
-        public SideMenuToggles(TextureManager textureManager, SearchFilterCollection tagFilters, SearchFilterCollection searchFilters, Action onFilterChanged, TagList allTags, Data data)
+        public SideMenuToggles(TextureManager textureManager, SearchFilterCollection tagFilters, SearchFilterCollection searchFilters, Action onFilterChanged, Func<bool> hasFullInventoryCharacters, TagList allTags, Data data)
         {
             _textureManager = textureManager;
             _tagFilters = tagFilters;
             _searchFilters = searchFilters;
             _onFilterChanged = onFilterChanged;
+            _hasFullInventoryCharacters = hasFullInventoryCharacters;
             _allTags = allTags;
             _data = data;
             FlowDirection = ControlFlowDirection.SingleTopToBottom;
@@ -93,7 +98,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void CreateTags()
         {
-            var tagLlist = _tags.Select(e => e.Text);
+            SyncFullInventoryTag();
+
+            var tagLlist = _tags.Where(e => e.ShowDelete).Select(e => e.Text);
 
             var deleteTags = tagLlist.Except(_allTags);
             var addTags = _allTags.Except(tagLlist);
@@ -145,6 +152,60 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
                 _tagFlowPanel.FitWidestTag(ContentRegion.Width);
             }
+        }
+
+        public void UpdateComputedTags()
+        {
+            SyncFullInventoryTag();
+            _tagFlowPanel.FitWidestTag(ContentRegion.Width);
+            Invalidate();
+        }
+
+        private void SyncFullInventoryTag()
+        {
+            bool shouldShow = _hasFullInventoryCharacters?.Invoke() == true;
+
+            if (!shouldShow)
+            {
+                if (_fullInventoryTag is not null)
+                {
+                    _ = _tags.Remove(_fullInventoryTag);
+                    _fullInventoryTag.Dispose();
+                    _fullInventoryTag = null;
+                }
+
+                if (_searchFilters.TryGetValue(FullInventoryFilterKey, out var filter) && filter.IsEnabled)
+                {
+                    filter.IsEnabled = false;
+                    _onFilterChanged?.Invoke();
+                }
+
+                return;
+            }
+
+            if (_fullInventoryTag is not null)
+            {
+                _fullInventoryTag.Text = strings.FullInventory;
+                return;
+            }
+
+            Tag tag = new()
+            {
+                Parent = _tagFlowPanel,
+                Text = strings.FullInventory,
+                ShowDelete = false,
+                CanInteract = true,
+            };
+
+            tag.OnClickAction = () =>
+            {
+                _searchFilters[FullInventoryFilterKey].IsEnabled = tag.Active;
+                _onFilterChanged?.Invoke();
+            };
+
+            tag.SetActive(_searchFilters[FullInventoryFilterKey].IsEnabled);
+            _fullInventoryTag = tag;
+            _tags.Insert(0, tag);
         }
 
         private void CreateToggles()
@@ -247,6 +308,15 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 SetLocalizedTooltip = () => strings.Show_Birthday_Tooltip,
             };
             _toggles.Add(birthday);
+
+            var fullInventory = new ImageColorToggle((b) => action(b, FullInventoryFilterKey))
+            {
+                Texture = AsyncTexture2D.FromAssetId(156736),
+                UseGrayScale = true,
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
+                SetLocalizedTooltip = () => strings.FullInventory,
+            };
+            _toggles.Add(fullInventory);
 
             foreach (var race in _data.Races.Values)
             {
